@@ -1,0 +1,33 @@
+.jumbotron {
+    background-color:  #d44a4a;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.customer-body {
+    background-color: #d44a4a;
+}
+
+.customer-header {
+    color: white;
+    font-weight: 100;
+    text-align: center;
+    font-size:x-large;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0 auto;
+    border-radius: 10px;
+    overFlow: hidden;
+    width: 90%;
+}
+
+.table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+

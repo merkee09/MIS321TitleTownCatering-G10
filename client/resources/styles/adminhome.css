@@ -1,0 +1,57 @@
+.btn-dishManagment{
+    cursor: pointer;
+    background-color: white;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+    
+}
+
+.btn-eventStatistics{
+    cursor: pointer;
+    background-color: white;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+    
+}
+
+.btn-menuStatistics{
+    cursor: pointer;
+    background-color: white;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+    
+}
+
+.btn-referralStatistics{
+    cursor: pointer;
+    background-color: white;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+    
+}
+
+.btn-adminCalendar{
+    cursor: pointer;
+    background-color:white;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+    
+}
+
+body{
+    text-align: center;
+    background-color: #f15e5e;
+}
+
+.btn-adminHomeButton{
+    cursor: pointer;
+    background-color:#f15e5e;
+    border:#f15e5e;
+    width: 150px;
+    height: 50px;
+}

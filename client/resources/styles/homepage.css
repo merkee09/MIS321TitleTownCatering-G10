@@ -1,0 +1,225 @@
+.jumbotron-home {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    color: #472121;
+    margin: 0 auto;
+    width: 90%;
+    max-height: 500px;
+    font-family: 'Eczar', serif;
+    font-weight: 600;
+    padding: 50px;
+}
+
+.btn-primary {
+    background-color: #34349c;
+    color: white;
+}
+
+.bg-image {
+    background-image: url('../images/SouthernBackground.jpg');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+
+.background-container {
+    position: relative;
+}
+
+.order-now-btn {
+    background-color: #d44a4a;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Eczar', serif;
+    font-weight: 600;
+}
+
+.order-now-btn:hover {
+    background-color: #fdc1df;
+}
+
+.sign-up-btn {
+    background-color: #d44a4a;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-family: 'Eczar', serif;
+    font-weight: 600;
+}
+
+.sign-up-btn:hover {
+    background-color: #fdc1df;
+}
+
+.left-column {
+    background-color: rgb(163, 163, 105);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.img-container {
+    width:350px;
+    height: 350px;
+    background-color: rgb(163, 163, 105);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.img-container img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.link-style {
+    color: white;
+    font-weight: 200;
+}
+
+
+.right-column {
+    background-color: #d44a4a;
+    height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+.right-column h1 {
+    margin-top: 130px;
+    font-weight: 500;
+}
+
+.right-column h2 {
+    font-size: medium;
+    font-weight: 200;
+    margin-top: 3%;
+}
+
+.form-group {
+    margin-top: 1em;
+    display: block;
+}
+
+.form-group label {
+    margin-top: 1em;
+    display: block;
+    margin-left: -25%;
+}
+
+.form-group input {
+    padding: 8px;
+    margin-right: 30px;
+}
+
+.log-in-button {
+    background-color: rgb(163, 163, 105);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    font-family: 'Eczar', serif;
+    font-weight: 600;
+    margin-left: 30px;
+}
+
+.log-in-button:hover {
+    background-color: rgb(209, 209, 172);
+}
+
+
+.sign-up-page {
+    background-color: #d44a4a;
+    color: white;
+    align-items: center;
+}
+
+
+.sign-up-page h1 {
+    text-align: center;
+    margin-top: 1%;
+}
+
+
+.sign-up-page h2 {
+    text-align: center;
+    font-weight: 200;
+    font-size: large;
+}
+
+
+.sign-up-page a {
+    color: white;
+    font-weight: 200;
+    font-size: large;
+}
+
+
+.sign-up-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 1em;
+}
+
+
+.sign-up-form label {
+    margin-top: 1em;
+    display: block;
+    font-weight: bold;
+    margin-left: 50px;
+}
+
+
+.sign-up-form select, input {
+    padding: 8px;
+    width: 275px;
+    margin-left: 50px;
+}
+
+.new-account-button {
+    background-color: rgb(163, 163, 105);
+    color: white;
+    width: 100px;
+    font-size: large;
+    border: none;
+    border-radius: 15px;;
+    padding: 15px;
+    margin-left: 140px;
+    margin-top: 15px;
+    font-family: 'Eczar', serif;
+    font-weight: 600;
+}
+
