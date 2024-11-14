@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Review</title>
+    <link rel="stylesheet" href="./resources/styles/orderReview.css"> 
+</head>
+<body>
+
+<div class="container">
+    <h1 class="reviewHeader">Order Review</h1>
+    <div class="content-box">
+        <p>Menu Items</p>
+        <p>Venue Information</p>
+        <p>Order Total</p>
+        <p>+10% Sales Tax</p>
+        <div class="form-group">
+            <input type="number" id="gratuity" placeholder="Enter gratuity" step="0.01" min="0">
+        </div>
+        <div class="total-section">
+            Final Price: $<span id="total">0.00</span>
+        </div>
+    </div>
+    <button class="submit-button">Submit</button>
+</div>
+
+<script src="./resources/scripts/orderReview.js"></script> 
+</body>
+</html>

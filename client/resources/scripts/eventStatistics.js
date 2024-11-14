@@ -14,3 +14,5 @@ new Chart("myChart", {
   },
   options: {}
 });
+
+document.getElementById("myChart").style.backgroundColor = "white";

@@ -9,9 +9,9 @@ async function handleOnLoad(){
 }
 
 async function getAllDishes(){
-    let resopnse = await fetch(url)
-    if(resopnse.status == 200){
-        myDishes = await resopnse.json()
+    let response = await fetch(url)
+    if(response.status == 200){
+        myDishes = await response.json()
     }
 }
 
@@ -24,7 +24,7 @@ async function createDishTable(){
     // sortDishes(myDishes)
 
     let html = `
-    <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Dish</button><button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Recipes</button><br><br>
+    <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Dish</button>  <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Dishes</button><br><br>
     <table class="table">
   <tr>
     <th>Name</th>
@@ -50,16 +50,17 @@ async function createDishTable(){
             <td>${dish.dishType}</td>
             <td>${dish.dishPrice}</td>
             <td>${dish.dishCost}</td>
-            <td><img src=${dish.dishImage} width="auto" height="75"alt="dish image>"</td>
+            <td><img src="${dish.dishImage}" width="auto" height="75"alt="dish image>"</td>
             <td><button type="button" onclick ="handleEditForm('${dish.dishID}', '${dish.dishName}', '${startAvailability}', '${endAvailability}', '${dish.dishType}', '${dish.dishPrice}', '${dish.dishCost}', '${dish.dishImage}')"class="btn edit"><i class="bi bi-pencil"></i></button></td>
             <td><button type="button" onclick="handleDelete('${dish.dishID}')" class="btn delete"><i class="fa fa-trash"></i></button></td>
             </tr>
         `
     })
-html +=
-  `
-</table>
-    `
+    html += `
+    </table>
+    <br>
+    <a href="./adminHome.html"><button id="adminHomeButton" class="btn btn-adminHomeButton">Admin Home Page</button></a>`
+     
 
     document.getElementById("app").innerHTML = html
 }
@@ -99,7 +100,7 @@ async function createDeletedTable(){
             <td>${dish.dishType}</td>
             <td>${dish.dishPrice}</td>
             <td>${dish.dishCost}</td>
-            <td><img src=${dish.dishImage} width="auto" height="75"alt="dish image>"</td>
+            <td><img src="${dish.dishImage}" width="auto" height="75"alt="dish image>"</td>
             <td><button type="button" onclick="handleRestore('${dish.dishID}')" class="btn btn-secondary">Restore</button></td>
         </tr>`;
     });
@@ -128,7 +129,7 @@ async function handleRestore(id){
 function handleAddForm(){
 
 
-    html =
+    let html =
     `
     <form onsubmit="return false">
     <label for="name">Dish Name</label><br>

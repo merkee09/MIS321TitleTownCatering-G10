@@ -2080,19 +2080,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/baileygraceliddle/.nuget/packages/": {}
+    "C:\\Users\\dpmcc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/baileygraceliddle/Documents/mis321/321groupproj/api/api.csproj",
+      "projectUniqueName": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "/Users/baileygraceliddle/Documents/mis321/321groupproj/api/api.csproj",
-      "packagesPath": "/Users/baileygraceliddle/.nuget/packages/",
-      "outputPath": "/Users/baileygraceliddle/Documents/mis321/321groupproj/api/obj/",
+      "projectPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\dpmcc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/baileygraceliddle/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\dpmcc\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2110,11 +2110,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -2153,7 +2148,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
