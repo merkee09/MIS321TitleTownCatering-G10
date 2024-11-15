@@ -2080,19 +2080,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\roman\\.nuget\\packages\\": {}
+    "C:\\Users\\dpmcc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
-      "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\obj\\",
+      "projectPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\dpmcc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\dpmcc\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

@@ -1,6 +1,7 @@
 #adminCalendar {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 #adminCalendar th, #adminCalendar td {
@@ -13,45 +14,39 @@
     background-color: #f2f2f2;
 }
 
-/* Make the days bold */
 td.day {
     font-weight: bold;
     color: black; 
 }
 
-/* Style for "Available" */
 td.available span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #aef7ae; 
+    background-color: #9B9D64; 
     display: inline-block; 
 }
 
-/* Style for events, location, time, dishes, and total dishes */
 td.event span, td.location span, td.time span, td.dishes span, td.total-dishes span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #f15e5e; 
+    background-color: #d44a4a; 
     display: inline-block; 
 }
 
-/* Style for table headers */
 table#adminCalendar th {
     text-transform: uppercase; 
     font-weight: bold; 
     color: white; 
-    background-color: #f15e5e; 
+    background-color: #d44a4a; 
     padding: 10px; 
     border-radius: 0; 
 }
 
-/* Ensure blank fields remain white */
 td:not(.available):not(.event):not(.location):not(.time):not(.dishes):not(.total-dishes) {
     background-color: white; 
 }
-
 
 td span:empty {
     display: none; 
@@ -59,12 +54,13 @@ td span:empty {
 
 .btn-adminHomeButton{
     cursor: pointer;
-    background-color:#f15e5e;
-    border:#f15e5e;
+    color: white;
+    background-color:#9B9D64;
+    border:#9B9D64;
     width: 150px;
     height: 50px;
 }
 
-
-
-
+body{
+    text-align: center;
+}
