@@ -12,8 +12,7 @@ namespace api.Databases
 {
     public class EventDatabase
     {
- 
-        private async Task<List<Event>> SelectEvents(string sql, List<MySqlParameter> parms){
+ SelectEvents(string sql, List<MySqlParameter> parms){
  
             List<Event> myEvents = new List<Event>();
  
