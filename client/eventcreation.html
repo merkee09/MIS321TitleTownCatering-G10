@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="./resources/styles/eventcreation.css">
     <title>Schedule An Event</title>
 </head>
-
-<body class="event-body">
+ 
+<body onload="handleOnLoad()" class="event-body">
     
     <div class="jumbotron-event-creation">
         <h1>Enter Event Information</h1>
     </div>
-
-    <div class="event-column-container">
+ 
+    <div id="app"></div>
+ 
+    <!-- <div class="event-column-container">
         <div class="row">
             <div class="col">
                 <form class="vertical=form">
@@ -117,10 +119,10 @@
                 <button class="event-creation-button">Submit</button>
             </div>
         </div>
-    </div>
-
+    </div> -->
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="./resources/scripts/eventcreation.js"></script>
-
+ 
 </body>
 </html>
