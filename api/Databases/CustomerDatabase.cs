@@ -10,7 +10,6 @@ using System.Configuration;
 
 namespace api.Databases
 {
-
     public class CustomerDatabase
     {
         private async Task<List<Customer>> SelectCustomers(string sql, List<MySqlParameter> parms){

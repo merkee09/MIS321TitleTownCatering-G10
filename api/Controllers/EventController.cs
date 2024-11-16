@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Models;
 using Microsoft.Extensions.ObjectPool;
+using Microsoft.Extensions.ObjectPool;
 
 namespace MyApp.Namespace
 {
@@ -10,6 +11,7 @@ namespace MyApp.Namespace
     [ApiController]
     public class EventController : ControllerBase
     {
+        // // GET:
         // // GET:
         // [HttpGet("{customerEmail}", Name = "Get")] 
         // public async Task<List<Event>> Get(int id)
@@ -48,4 +50,4 @@ namespace MyApp.Namespace
         }
 
     }
-}co
+}

@@ -7,26 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using System.Configuration;
- 
+
+
 namespace api.Databases
 {
     public class EventDatabase
     {
-  private async Task<List<Event>> SelectEvents(string sql, List<MySqlParameter> parms){
+ 
+
+        private async Task<List<Event>> SelectEvents(string sql, List<MySqlParameter> parms){
  
             List<Event> myEvents = new List<Event>();
  
+ 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
+ 
+ 
  
  
             using var connection = new MySqlConnection(cs);
             await connection.OpenAsync();
             using var command = new MySqlCommand(sql, connection);
  
+ 
             if(parms != null){
                 command.Parameters.AddRange(parms.ToArray());
             }
+ 
  
             using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -50,6 +58,7 @@ namespace api.Databases
                     EventCustomerEmail = reader.GetString(15)
                 });
             }
+ 
  
             return myEvents;
  
@@ -82,11 +91,14 @@ namespace api.Databases
             return await SelectEvents(sql, parms);
 
         }
+ 
 
         public async Task<List<Event>> GetAllCustomerEvents(string customerEmail){
             string sql = $"SELECT * FROM Events WHERE customer_email = @customerEmail;";
  
+ 
             List<MySqlParameter> parms = new();
+ 
  
             parms.Add(new MySqlParameter("@customerEmail", MySqlDbType.String) {Value = customerEmail});
             return await SelectEvents(sql, parms);
