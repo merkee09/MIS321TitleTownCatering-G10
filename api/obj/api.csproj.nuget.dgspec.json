@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj": {}
+    "/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/api/api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj": {
+    "/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+        "projectUniqueName": "/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/api/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
-        "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\obj\\",
+        "projectPath": "/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/api/api.csproj",
+        "packagesPath": "/Users/baileygraceliddle/.nuget/packages/",
+        "outputPath": "/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/baileygraceliddle/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -70,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
