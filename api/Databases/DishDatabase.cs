@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using System.Configuration;
-
 namespace api.Databases
 {
     public class DishDatabase
