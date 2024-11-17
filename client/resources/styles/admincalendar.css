@@ -1,6 +1,5 @@
-/* Set the background for the entire page */
 body {
-    background-color: #d44a4a; /* Light pink */
+    background-color: #d44a4a; 
     text-align: center;
     margin: 0;
     padding: 0;
@@ -10,46 +9,45 @@ h1 {
     color: white;
 }
 
-/* Style the calendar to have a white background */
+
 #adminCalendar {
-    width: 80%; /* Adjust width as needed */
-    margin: 20px auto; /* Center the table horizontally */
+    width: 80%; 
+    margin: 20px auto; 
     border-collapse: collapse;
-    background-color: #ffffff; /* White background for the calendar */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for separation */
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-/* Style for table borders and alignment */
+
 #adminCalendar th, #adminCalendar td {
     border: 5px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
-/* Header row style */
+
 #adminCalendar th {
-    background-color: #d44a4a; /* Pinkish red header background */
+    background-color: #d44a4a; 
     color: white;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-/* Day cells (e.g., Sunday, Monday) */
+
 td.day {
     font-weight: bold;
     color: black; 
 }
 
-/* Styling for "Available" cells */
+
 td.available span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #9B9D64; /* Green for available */
+    background-color: #9B9D64; 
     display: inline-block; 
 }
 
-/* Shared styles for Event, Location, Time, Dishes, and Total Dishes */
 td.event span,
 td.location span,
 td.time span,
@@ -58,11 +56,11 @@ td.total-dishes span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #d44a4a; /* Light red background */
+    background-color: #d44a4a; 
     display: inline-block; 
 }
 
-/* Center-align header buttons */
+
 .btn-adminHomeButton {
     cursor: pointer;
     color: white;
@@ -73,8 +71,7 @@ td.total-dishes span {
     margin-top: 20px;
 }
 
-/* Remove default margins for a cleaner layout */
 html, body {
-    height: 100%; /* Ensures full height for pink background */
+    height: 100%; 
     box-sizing: border-box;
 }

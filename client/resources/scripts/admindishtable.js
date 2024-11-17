@@ -4,22 +4,7 @@ const url = "http://localhost:5003/api/dish"
 async function handleOnLoad(){
     await getAllDishes();
     document.getElementById("formContainer").innerHTML ="";
-    
-    // let filterHtml = `
-    // <div>
-    //     <label for="dishFilter">Filter by Dish Type: </label>
-    //     <select id="dishFilter" onchange="filterDishes()">
-    //         <option value="all">All</option>
-    //         <option value="entree">Entree</option>
-    //         <option value="dessert">Dessert</option>
-    //         <option value="appetizer">Appetizer</option>
-    //     </select>
-    // </div><br>`
-    
-
-    // document.getElementById("filterContainer").innerHTML = filterHtml;
     createDishTable();
-
 }
 
 async function getAllDishes(){
@@ -31,7 +16,12 @@ async function getAllDishes(){
 
 
 async function createDishTable(filteredDishes = myDishes){
-    console.log(myDishes)
+    console.log(myDishes);
+
+    const currencyFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
 
     let html = `
     <div>
@@ -45,8 +35,6 @@ async function createDishTable(filteredDishes = myDishes){
         </select>
     </div><br>`
     
-
-    // sortDishes(myDishes)
 
     html += `
     <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Dish</button>  <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Dishes</button><br><br>
@@ -63,8 +51,6 @@ async function createDishTable(filteredDishes = myDishes){
     <th>Delete Dish</th>
   </tr>`
 
-  //const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'});
-
     filteredDishes.forEach((dish) =>{
         let startAvailability = new Date(dish.dishStartAvailability).toISOString().slice(0, 10);
         let endAvailability = new Date(dish.dishEndAvailability).toISOString().slice(0, 10);
@@ -75,8 +61,8 @@ async function createDishTable(filteredDishes = myDishes){
             <td>${startAvailability}</td>
             <td>${endAvailability}</td>
             <td>${dish.dishType}</td>
-            <td>${dish.dishPrice}</td>
-            <td>${dish.dishCost}</td>
+            <td>${currencyFormatter.format(dish.dishPrice)}</td>
+            <td>${currencyFormatter.format(dish.dishCost)}</td>
             <td><img src="${dish.dishImage}" width="auto" height="75"alt="dish image>"</td>
             <td><button type="button" onclick ="handleEditForm('${dish.dishID}', '${dish.dishName}', '${startAvailability}', '${endAvailability}', '${dish.dishType}', '${dish.dishPrice}', '${dish.dishCost}', '${dish.dishImage}')"class="btn edit"><i class="bi bi-pencil"></i></button></td>
             <td><button type="button" onclick="handleDelete('${dish.dishID}')" class="btn delete"><i class="fa fa-trash"></i></button></td>
@@ -328,27 +314,3 @@ function filterDishes(){
     createDishTable(filteredDishes);
     document.getElementById("dishFilter").value = selectedType;
 }
-
-// async function handleFavorite(id){
-
-//     await fetch(url+"/"+id, {
-//         method: "PUT",
-//         headers: {
-//             "Content-type": "application/json; charset=UTF-8"
-//         }
-//         });
-//     handleOnLoad()
-
-// }
-
-// async function sortRecipes(myDishes) {
-//     myDishes.sort((a, b) => b.recipeRating - a.recipeRating);
-// }
-
-
-
-
-// <br>
-// <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Recipe</button>
-// <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Recipes</button>
-// <button class="btn btn-primary btn-lg" onclick="createFavoriteTable('${myDishes}')">Favorite Recipes</button>
