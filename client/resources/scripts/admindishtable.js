@@ -63,6 +63,8 @@ async function createDishTable(filteredDishes = myDishes){
     <th>Delete Dish</th>
   </tr>`
 
+  //const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'});
+
     filteredDishes.forEach((dish) =>{
         let startAvailability = new Date(dish.dishStartAvailability).toISOString().slice(0, 10);
         let endAvailability = new Date(dish.dishEndAvailability).toISOString().slice(0, 10);
