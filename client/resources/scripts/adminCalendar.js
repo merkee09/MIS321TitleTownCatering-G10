@@ -19,15 +19,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             }, {});
 
             eventData.forEach(event => {
-                const eventDate = new Date(event.eventStartTime);
-                const dayName = daysOfWeek[eventDate.getDay()];
+                const eventStartDate = new Date(event.eventStartTime);
+                const eventDuration = parseInt(event.eventDuration, 10) || 0;
+                const eventEndDate = new Date(eventStartDate);
+                eventEndDate.setHours(eventStartDate.getHours() + eventDuration);
+
+                const dayName = daysOfWeek[eventStartDate.getDay()];
                 groupedEvents[dayName].push({
-                    event: event.eventName,
-                    location: event.eventVenueName,
-                    time: `${eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${
-                        eventDate.getHours() + parseInt(event.eventDuration)
-                    }:${eventDate.getMinutes()}`,
-                    dishes: event.dishes || 'No dishes specified' // Add 'dishes' if available
+                    event: event.eventName || 'Available',
+                    location: event.eventVenueName || '',
+                    time: `${formatTime(eventStartDate)} - ${formatTime(eventEndDate)}`,
+                    dishes: event.dishes && event.dishes.trim() !== '' ? event.dishes : 'No dishes chosen',
                 });
             });
 
@@ -38,27 +40,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Helper function to format time
+    function formatTime(date) {
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // Add leading zero
+        return `${formattedHours}:${formattedMinutes} ${ampm}`;
+    }
+
     // Render events into the calendar
     const renderCalendar = (events) => {
         const aggregateDishes = (dayEvents) => {
             const dishCounts = {};
 
             dayEvents.forEach(event => {
-                const dishes = event.dishes.split(', ');
-                dishes.forEach(dish => {
-                    const [quantity, ...dishNameParts] = dish.split(' ');
-                    const dishName = dishNameParts.join(' ');
-                    if (dishCounts[dishName]) {
-                        dishCounts[dishName] += parseInt(quantity, 10);
-                    } else {
-                        dishCounts[dishName] = parseInt(quantity, 10);
-                    }
-                });
+                if (typeof event.dishes === 'string' && event.dishes !== 'No dishes chosen') {
+                    const dishes = event.dishes.split(', ');
+                    dishes.forEach(dish => {
+                        const [quantity, ...dishNameParts] = dish.split(' ');
+                        const dishName = dishNameParts.join(' ');
+                        const parsedQuantity = parseInt(quantity, 10) || 0;
+
+                        if (dishCounts[dishName]) {
+                            dishCounts[dishName] += parsedQuantity;
+                        } else {
+                            dishCounts[dishName] = parsedQuantity;
+                        }
+                    });
+                }
             });
 
             return Object.entries(dishCounts)
                 .map(([dish, count]) => `${count} ${dish}`)
-                .join('<br>');
+                .join('<br>') || 'No dishes chosen';
         };
 
         daysOfWeek.forEach(day => {
@@ -99,8 +115,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (i === 0) {
                     const totalDishesCell = document.createElement('td');
-                    const totalDishes = aggregateDishes(dayEvents);
-                    totalDishesCell.innerHTML = totalDishes ? `<span>${totalDishes}</span>` : '';
+                    const totalDishes = dayEvents.length > 0 ? aggregateDishes(dayEvents) : '';
+                    totalDishesCell.innerHTML = totalDishes
+                        ? `<span>${totalDishes}</span>`
+                        : '<span>No dishes chosen</span>';
                     totalDishesCell.classList.add('total-dishes');
                     totalDishesCell.rowSpan = Math.max(dayEvents.length, maxEvents);
                     row.appendChild(totalDishesCell);
@@ -117,6 +135,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderCalendar(events);
     }
 });
+
+
+
+
+
+
 
 
 

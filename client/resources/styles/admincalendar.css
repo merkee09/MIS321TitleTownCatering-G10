@@ -1,66 +1,80 @@
-#adminCalendar {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+/* Set the background for the entire page */
+body {
+    background-color: #d44a4a; /* Light pink */
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
+h1 {
+    color: white;
+}
+
+/* Style the calendar to have a white background */
+#adminCalendar {
+    width: 80%; /* Adjust width as needed */
+    margin: 20px auto; /* Center the table horizontally */
+    border-collapse: collapse;
+    background-color: #ffffff; /* White background for the calendar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for separation */
+}
+
+/* Style for table borders and alignment */
 #adminCalendar th, #adminCalendar td {
-    border: 1px solid #ddd;
+    border: 5px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
+/* Header row style */
 #adminCalendar th {
-    background-color: #f2f2f2;
+    background-color: #d44a4a; /* Pinkish red header background */
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
+/* Day cells (e.g., Sunday, Monday) */
 td.day {
     font-weight: bold;
     color: black; 
 }
 
+/* Styling for "Available" cells */
 td.available span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #9B9D64; 
+    background-color: #9B9D64; /* Green for available */
     display: inline-block; 
 }
 
-td.event span, td.location span, td.time span, td.dishes span, td.total-dishes span {
+/* Shared styles for Event, Location, Time, Dishes, and Total Dishes */
+td.event span,
+td.location span,
+td.time span,
+td.dishes span,
+td.total-dishes span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
-    background-color: #d44a4a; 
+    background-color: #d44a4a; /* Light red background */
     display: inline-block; 
 }
 
-table#adminCalendar th {
-    text-transform: uppercase; 
-    font-weight: bold; 
-    color: white; 
-    background-color: #d44a4a; 
-    padding: 10px; 
-    border-radius: 0; 
-}
-
-td:not(.available):not(.event):not(.location):not(.time):not(.dishes):not(.total-dishes) {
-    background-color: white; 
-}
-
-td span:empty {
-    display: none; 
-}
-
-.btn-adminHomeButton{
+/* Center-align header buttons */
+.btn-adminHomeButton {
     cursor: pointer;
     color: white;
-    background-color:#9B9D64;
-    border:#9B9D64;
+    background-color: #9B9D64;
+    border: #9B9D64;
     width: 150px;
     height: 50px;
+    margin-top: 20px;
 }
 
-body{
-    text-align: center;
+/* Remove default margins for a cleaner layout */
+html, body {
+    height: 100%; /* Ensures full height for pink background */
+    box-sizing: border-box;
 }
