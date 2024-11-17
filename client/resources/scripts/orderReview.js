@@ -1,5 +1,6 @@
 const gratuityInput = document.getElementById('gratuity');
 const totalOutput = document.getElementById('total');
+const submitButton = document.getElementById('sumbitOrder');
 
 function calculateTotal() {
     const subtotal = 100;
@@ -11,4 +12,9 @@ function calculateTotal() {
 }
 
 gratuityInput.addEventListener('input', calculateTotal);
-  
+
+submitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    calculateTotal();
+    window.location.href= 'customermenu.html';
+})

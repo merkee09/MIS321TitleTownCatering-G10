@@ -2,9 +2,23 @@ let myDishes = []
 const url = "http://localhost:5003/api/dish"
 
 async function handleOnLoad(){
-    await getAllDishes()
-    // sortDishes()
-    createDishTable()
+    await getAllDishes();
+    document.getElementById("formContainer").innerHTML ="";
+    
+    // let filterHtml = `
+    // <div>
+    //     <label for="dishFilter">Filter by Dish Type: </label>
+    //     <select id="dishFilter" onchange="filterDishes()">
+    //         <option value="all">All</option>
+    //         <option value="entree">Entree</option>
+    //         <option value="dessert">Dessert</option>
+    //         <option value="appetizer">Appetizer</option>
+    //     </select>
+    // </div><br>`
+    
+
+    // document.getElementById("filterContainer").innerHTML = filterHtml;
+    createDishTable();
 
 }
 
@@ -16,14 +30,25 @@ async function getAllDishes(){
 }
 
 
-async function createDishTable(){
+async function createDishTable(filteredDishes = myDishes){
     console.log(myDishes)
 
-
+    let html = `
+    <div>
+        <label for="dishFilter">Filter by Dish Type: </label>
+        <select id="dishFilter" onchange="filterDishes()">
+            <option value="all">All</option>
+            <option value="entree">Entree</option>
+            <option value="dessert">Dessert</option>
+            <option value="appetizer">Appetizer</option>
+            <option value="drink">Drink</option>
+        </select>
+    </div><br>`
+    
 
     // sortDishes(myDishes)
 
-    let html = `
+    html += `
     <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Dish</button>  <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Dishes</button><br><br>
     <table class="table">
   <tr>
@@ -38,7 +63,7 @@ async function createDishTable(){
     <th>Delete Dish</th>
   </tr>`
 
-    myDishes.forEach((dish) =>{
+    filteredDishes.forEach((dish) =>{
         let startAvailability = new Date(dish.dishStartAvailability).toISOString().slice(0, 10);
         let endAvailability = new Date(dish.dishEndAvailability).toISOString().slice(0, 10);
         html +=
@@ -62,7 +87,12 @@ async function createDishTable(){
     <a href="./adminHome.html"><button id="adminHomeButton" class="btn btn-adminHomeButton">Admin Home Page</button></a>`
      
 
-    document.getElementById("app").innerHTML = html
+    document.getElementById("tableContainer").innerHTML = html
+
+    const currentFilter = document.getElementById("dishFilter").value;
+    if (currentFilter) {
+        document.getElementById("dishFilter").value = currentFilter;
+    }
 }
 
 
@@ -109,7 +139,9 @@ async function createDeletedTable(){
     <br>
     <button class="btn btn-primary btn-lg" onclick="handleOnLoad()">Back to Dishes</button>`;
 
-    document.getElementById("app").innerHTML = html;
+    document.getElementById("filterContainer").innerHTML ="";
+    document.getElementById("formContainer").innerHTML = "";
+    document.getElementById("tableContainer").innerHTML = html;
 }
 
 async function handleRestore(id){
@@ -127,6 +159,12 @@ async function handleRestore(id){
 
 
 function handleAddForm(){
+    const dishTypeOptions = `
+    <option value="appetizer">Appetizer</option>
+    <option value="entree">Entree</option>
+    <option value="dessert">Dessert</option>
+    <option value="drink">Drink</option>
+    `
 
 
     let html =
@@ -142,7 +180,7 @@ function handleAddForm(){
     <input type="date" id="endAvailability" name="endAvailability"><br>
 
     <label for="type">Type</label><br>
-    <input type="text" id="type" name="type"><br>
+    <select id="type" name"type">${dishTypeOptions}</select><br>
 
     <label for="price">Price</label><br>
     <input type="text" id="price" name="price"><br>
@@ -157,7 +195,10 @@ function handleAddForm(){
     <button onclick="handleOnLoad()" class="btn btn-primary">Back</button><br>
 </form>
     `
-    document.getElementById("app").innerHTML = html
+
+    document.getElementById("filterContainer").innerHTML = ""
+    document.getElementById("tableContainer").innerHTML = ""
+    document.getElementById("formContainer").innerHTML = html;
 }
 
 async function handleAdd(){
@@ -183,9 +224,17 @@ async function handleAdd(){
 
 
     handleOnLoad()
+    document.getElementById("formContainer").innnerHTML ="";
 }
 
 function handleEditForm(id, name, startAvailability, endAvailability, type, price, cost, image){
+
+    const dishTypeOptions =`
+    <option value="appetizer" ${type.toLowerCase() === "appetizer" ? "selected" : ""}>Appetizer</option>
+    <option value="entree" ${type.toLowerCase() === "entree" ? "selected" : ""}>Entree</option>
+    <option value="dessert" ${type.toLowerCase() === "dessert" ? "selected" : ""}>Dessert</option>
+    <option value="drink" ${type.toLowerCase() === "drink" ? "selected" : ""}>Drink</option>
+    `
 
     html = `
     <form onsubmit="return false">
@@ -199,7 +248,7 @@ function handleEditForm(id, name, startAvailability, endAvailability, type, pric
         <input type="date" id="endAvailability" name="endAvailability" value="${endAvailability}"><br>
 
         <label for="type">Type</label><br>
-        <input type="text" id="type" name="type" value="${type}"><br>
+        <select id="type" name"type">${dishTypeOptions}</select><br>
 
         <label for="price">Price</label><br>
         <input type="text" id="price" name="price" value="${price}"><br>
@@ -217,8 +266,11 @@ function handleEditForm(id, name, startAvailability, endAvailability, type, pric
 </form>
     </form>
     `;
+    document.getElementById("filterContainer").innerHTML ="";
+    document.getElementById("tableContainer").innerHTML ="";
+
     
-    document.getElementById("app").innerHTML = html;
+    document.getElementById("formContainer").innerHTML = html;
 }
 
 async function handleEdit(){
@@ -245,6 +297,7 @@ async function handleEdit(){
 
 
     handleOnLoad()
+    document.getElementById("formContainer"). innerHTML = "";
 }
 
 async function handleDelete(id){
@@ -259,6 +312,19 @@ async function handleDelete(id){
         });
     handleOnLoad()
 
+}
+
+function filterDishes(){
+    const selectedType = document.getElementById("dishFilter").value;
+    const filteredDishes = 
+        selectedType === "all"
+        ? myDishes
+        : myDishes.filter((dish) => dish.dishType.toLowerCase() === selectedType.toLowerCase());
+
+    console.log("Filtered Dishes", filteredDishes)
+
+    createDishTable(filteredDishes);
+    document.getElementById("dishFilter").value = selectedType;
 }
 
 // async function handleFavorite(id){
