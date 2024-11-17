@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
+
     public class ConnectionString
     {
         public string cs { get; set; }
