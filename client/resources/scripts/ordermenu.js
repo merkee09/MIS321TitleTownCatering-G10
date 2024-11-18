@@ -9,10 +9,12 @@ console.log(eventDate)
 console.log(eventID)
 
 async function handleOnLoad() {
-    await getAllDishes() 
-    getAllAvailableDishes(myDishes, eventDate) 
+    // await getAllDishes() 
+    await getAllAvailableDishes(eventDate) 
+    console.log(availableDishes)
     createAppetizerPage()
 }
+
 
 async function getAllDishes() {
     let response = await fetch(url)
@@ -23,42 +25,53 @@ async function getAllDishes() {
     }
 }
 
-function getAllAvailableDishes(myDishes, eventDate) {
-    availableDishes = [] 
-    myDishes.forEach((dish) => {
-        let isAvailable = isDishAvailable(eventDate, dish.dishStartAvailability, dish.dishEndAvailability)
-        if (isAvailable) {
-            availableDishes.push(dish) 
-        }
-    })
-}
+async function getAllAvailableDishes(eventDate) {
+    let dishurl = `http://localhost:5003/api/dish/${eventDate}`
 
-function isDishAvailable(eventDate, dishStartAvailability, dishEndAvailability) {
-
-    let eventDateObj = new Date(eventDate)
-    let startAvailability = new Date(dishStartAvailability)
-    let endAvailability = new Date(dishEndAvailability)
-
-    let eventMonth = eventDateObj.getMonth()
-    let eventDay = eventDateObj.getDate()
-    let startMonth = startAvailability.getMonth()
-    let startDay = startAvailability.getDate()
-    let endMonth = endAvailability.getMonth()
-    let endDay = endAvailability.getDate()
-
-
-    if (startMonth <= endMonth) {
-        return (
-            (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) &&
-            (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
-        )
+    let response = await fetch(dishurl)
+    if (response.status == 200) {
+        availableDishes = await response.json()
+    } else {
+        console.error("Failed to fetch dishes:", response.status)
     }
-
-    return (
-        (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) ||
-        (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
-    )
 }
+
+// function getAllAvailableDishes(myDishes, eventDate) {
+//     availableDishes = [] 
+//     myDishes.forEach((dish) => {
+//         let isAvailable = isDishAvailable(eventDate, dish.dishStartAvailability, dish.dishEndAvailability)
+//         if (isAvailable) {
+//             availableDishes.push(dish) 
+//         }
+//     })
+// }
+
+// function isDishAvailable(eventDate, dishStartAvailability, dishEndAvailability) {
+
+//     let eventDateObj = new Date(eventDate)
+//     let startAvailability = new Date(dishStartAvailability)
+//     let endAvailability = new Date(dishEndAvailability)
+
+//     let eventMonth = eventDateObj.getMonth()
+//     let eventDay = eventDateObj.getDate()
+//     let startMonth = startAvailability.getMonth()
+//     let startDay = startAvailability.getDate()
+//     let endMonth = endAvailability.getMonth()
+//     let endDay = endAvailability.getDate()
+
+
+//     if (startMonth <= endMonth) {
+//         return (
+//             (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) &&
+//             (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
+//         )
+//     }
+
+//     return (
+//         (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) ||
+//         (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
+//     )
+// }
 
 function createAppetizerPage() {
     let html = `

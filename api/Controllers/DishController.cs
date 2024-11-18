@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Databases;
 using api.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace api.Controllers
+
 {
+    [EnableCors("OpenPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class DishController : ControllerBase
@@ -19,12 +22,12 @@ namespace api.Controllers
         }
 
 
-        // [HttpGet("{eventDate}")]
-        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
-        // {
-        //     DishDatabase myDatabase = new();
-        //     return await myDatabase.GetAllAvailableDishes(eventDate);
-        // }
+        [HttpGet("{eventDate}")]
+        public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
+        {
+            DishDatabase myDatabase = new();
+            return await myDatabase.GetAllAvailableDishes(eventDate);
+        }
 
         //POST
         [HttpPost]

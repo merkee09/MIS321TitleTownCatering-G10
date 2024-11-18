@@ -82,54 +82,54 @@ namespace api.Databases
 
         }
 
-        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
-        // {
-        //     string sql = @$"
+        public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
+        {
+            string sql = @$"
             
-        //     SELECT * 
-        //     FROM Dishes
-        //     WHERE dish_deleted != TRUE 
-        //     AND (
-        //         (
-        //         MONTH(dish_start_availability) <= MONTH(dish_end_availability)
-        //         AND (
-        //             (
-        //             MONTH(@eventDate) > MONTH(dish_start_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
-        //             )
-        //             AND (
-        //             MONTH(@eventDate) < MONTH(dish_end_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
-        //             )
-        //         )
-        //         )
-        //         OR (
-        //         MONTH(dish_start_availability) > MONTH(dish_end_availability)
-        //         AND (
-        //             (
-        //             MONTH(@eventDate) > MONTH(dish_start_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
-        //             )
-        //             OR (
-        //             MONTH(@eventDate) < MONTH(dish_end_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
-        //             )
-        //         )
-        //         )
-        //     );";
+            SELECT * 
+            FROM Dishes
+            WHERE dish_deleted != TRUE 
+            AND (
+                (
+                MONTH(dish_start_availability) <= MONTH(dish_end_availability)
+                AND (
+                    (
+                    MONTH(@eventDate) > MONTH(dish_start_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+                    )
+                    AND (
+                    MONTH(@eventDate) < MONTH(dish_end_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+                    )
+                )
+                )
+                OR (
+                MONTH(dish_start_availability) > MONTH(dish_end_availability)
+                AND (
+                    (
+                    MONTH(@eventDate) > MONTH(dish_start_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+                    )
+                    OR (
+                    MONTH(@eventDate) < MONTH(dish_end_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+                    )
+                )
+                )
+            );";
 
-        //     List<MySqlParameter> parms = new()
-        //     {
-        //         new MySqlParameter("@eventDate", MySqlDbType.Date) { Value = eventDate }
-        //     };
+            List<MySqlParameter> parms = new()
+            {
+                new MySqlParameter("@eventDate", MySqlDbType.Date) { Value = eventDate }
+            };
 
-        //     Console.WriteLine($"SQL: {sql}");
-        //     Console.WriteLine($"Parameters: eventDate = {eventDate}");
+            Console.WriteLine($"SQL: {sql}");
+            Console.WriteLine($"Parameters: eventDate = {eventDate}");
 
-        //     return await SelectDishes(sql, parms);
+            return await SelectDishes(sql, parms);
 
 
-        // }
+        }
 
         //METHOD TO GET ONE DISH BASED ON ID
         public async Task<List<Dish>> GetDish(int id){

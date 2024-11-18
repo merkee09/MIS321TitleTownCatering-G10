@@ -8,7 +8,6 @@ using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 
-
 namespace api.Databases
 {
     public class EventDatabase
