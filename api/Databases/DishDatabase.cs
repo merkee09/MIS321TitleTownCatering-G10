@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using System.Configuration;
+using Org.BouncyCastle.Asn1.Icao;
 namespace api.Databases
 {
     public class DishDatabase
@@ -14,6 +15,7 @@ namespace api.Databases
 
         //GETS DISHES FROM DATABASE
             private async Task<List<Dish>> SelectDishes(string sql, List<MySqlParameter> parms){
+                
 
             List<Dish> myDishes = new List<Dish>();
 
@@ -32,17 +34,17 @@ namespace api.Databases
             using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                myDishes.Add(new Dish(){
-                    DishID = reader.GetInt32(0),
-                    DishName = reader.GetString(1),
-                    DishStartAvailability = reader.GetDateTime(2),
-                    DishEndAvailability = reader.GetDateTime(3).Date,
-                    DishType = reader.GetString(4),
-                    DishPrice = reader.GetDouble(5),
-                    DishCost = reader.GetDouble(6),
-                    DishImage = reader.GetString(7),
-                    DishIsDeleted = reader.GetBoolean(8)
-                });
+               myDishes.Add(new Dish(){
+                DishID = reader.GetInt32(0),
+                DishName = reader.GetString(1),
+                DishStartAvailability = reader.IsDBNull(2) ? (DateTime?)null : reader.GetDateTime(2),
+                DishEndAvailability = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3),
+                DishType = reader.GetString(4),
+                DishPrice = reader.GetDouble(5),
+                DishCost = reader.GetDouble(6),
+                DishImage = reader.GetString(7),
+                DishIsDeleted = reader.GetBoolean(8)
+            });         
             }
 
             return myDishes;
@@ -80,6 +82,55 @@ namespace api.Databases
 
         }
 
+        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
+        // {
+        //     string sql = @$"
+            
+        //     SELECT * 
+        //     FROM Dishes
+        //     WHERE dish_deleted != TRUE 
+        //     AND (
+        //         (
+        //         MONTH(dish_start_availability) <= MONTH(dish_end_availability)
+        //         AND (
+        //             (
+        //             MONTH(@eventDate) > MONTH(dish_start_availability)
+        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+        //             )
+        //             AND (
+        //             MONTH(@eventDate) < MONTH(dish_end_availability)
+        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+        //             )
+        //         )
+        //         )
+        //         OR (
+        //         MONTH(dish_start_availability) > MONTH(dish_end_availability)
+        //         AND (
+        //             (
+        //             MONTH(@eventDate) > MONTH(dish_start_availability)
+        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+        //             )
+        //             OR (
+        //             MONTH(@eventDate) < MONTH(dish_end_availability)
+        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+        //             )
+        //         )
+        //         )
+        //     );";
+
+        //     List<MySqlParameter> parms = new()
+        //     {
+        //         new MySqlParameter("@eventDate", MySqlDbType.Date) { Value = eventDate }
+        //     };
+
+        //     Console.WriteLine($"SQL: {sql}");
+        //     Console.WriteLine($"Parameters: eventDate = {eventDate}");
+
+        //     return await SelectDishes(sql, parms);
+
+
+        // }
+
         //METHOD TO GET ONE DISH BASED ON ID
         public async Task<List<Dish>> GetDish(int id){
             string sql = $"SELECT * FROM Dishes WHERE dish_id = @id;";
@@ -92,6 +143,8 @@ namespace api.Databases
 
             public async Task InsertDish(Dish dish){
 
+            dish.DishStartAvailability ??= DateTime.MinValue;
+            dish.DishEndAvailability ??= DateTime.MaxValue;
 
             string sql = @$"INSERT INTO Dishes (dish_name, dish_start_availability, dish_end_availability, dish_type, dish_price, dish_cost, dish_image) 
                                 VALUES (@dishName, @dishStartAvailability, @dishEndAvailability, @dishType, @dishPrice, @dishCost, @dishImage);";
@@ -121,6 +174,8 @@ namespace api.Databases
         }
 
         public async Task UpdateDish(Dish dish){
+            dish.DishStartAvailability ??= DateTime.MinValue;
+            dish.DishEndAvailability ??= DateTime.MaxValue;
 
 
 
