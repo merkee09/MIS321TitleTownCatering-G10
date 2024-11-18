@@ -52,14 +52,21 @@ async function createDishTable(filteredDishes = myDishes){
   </tr>`
 
     filteredDishes.forEach((dish) =>{
-        let startAvailability = new Date(dish.dishStartAvailability).toISOString().slice(0, 10);
-        let endAvailability = new Date(dish.dishEndAvailability).toISOString().slice(0, 10);
+        let startAvailability = new Date(dish.dishStartAvailability)
+        let endAvailability = new Date(dish.dishEndAvailability)
+
+        let startMonth = startAvailability.getMonth() + 1;  
+        let startDay = startAvailability.getDate();         
+
+        let endMonth = endAvailability.getMonth() + 1;    
+        let endDay = endAvailability.getDate();   
+
         html +=
         `
         <tr>
             <td>${dish.dishName}</td>
-            <td>${startAvailability}</td>
-            <td>${endAvailability}</td>
+            <td>${startMonth}-${startDay}</td>
+            <td>${endMonth}-${endDay}</td>
             <td>${dish.dishType}</td>
             <td>${currencyFormatter.format(dish.dishPrice)}</td>
             <td>${currencyFormatter.format(dish.dishCost)}</td>
@@ -192,8 +199,8 @@ function handleAddForm(){
 async function handleAdd(){
     let dish = {
         dishName: document.getElementById('name').value,
-        dishStartAvailability: document.getElementById('startAvailability').value,
-        dishEndAvailability: document.getElementById('endAvailability').value,
+        dishStartAvailability: document.getElementById('startAvailability').value || "1970-01-01", 
+        dishEndAvailability: document.getElementById('endAvailability').value || "9999-12-31",
         dishType: document.getElementById('type').value,
         dishPrice: document.getElementById('price').value,
         dishCost: document.getElementById('cost').value,
@@ -265,8 +272,8 @@ async function handleEdit(){
     let dish = {
         dishID: document.getElementById('id').value,
         dishName: document.getElementById('name').value,
-        dishStartAvailability: document.getElementById('startAvailability').value,
-        dishEndAvailability: document.getElementById('endAvailability').value,
+        dishStartAvailability: document.getElementById('startAvailability').value || "1970-01-01", 
+        dishEndAvailability: document.getElementById('endAvailability').value || "9999-12-31",
         dishType: document.getElementById('type').value,
         dishPrice: document.getElementById('price').value,
         dishCost: document.getElementById('cost').value,

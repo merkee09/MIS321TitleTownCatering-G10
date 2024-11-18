@@ -157,13 +157,19 @@ async function addNewEvent(){
 
         if (response.ok) {
             alert("Event created successfully!");
+            const result = await response.json(); 
+            localStorage.setItem('eventID', result.eventID);
+            localStorage.setItem('eventDate', event.eventDate);
+            window.location.href = "ordermenu.html"
+
         } else {
             const errorMessage = await response.json();
             alert(errorMessage.message || "An error occurred while creating the event.");
         }
     } catch (error) {
         console.error("Error submitting event:", error);
-        alert("There was an issue submitting your event. Please try again.");
+        alert("There w  as an issue submitting your event. Please try again.");
     }
+
 }
  
