@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Models;
 using Microsoft.Extensions.ObjectPool;
-using Microsoft.Extensions.ObjectPool;
 
 namespace MyApp.Namespace
 {

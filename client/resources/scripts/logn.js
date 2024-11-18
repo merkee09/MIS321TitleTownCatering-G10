@@ -8,9 +8,9 @@ function handleOnLoad(){
 }
 
 async function getAllCustomers(){
-    let resopnse = await fetch(url)
-    if(resopnse.status == 200){
-        myCustomers = await resopnse.json()
+    let response = await fetch(url)
+    if(response.status == 200){
+        myCustomers = await response.json()
 
         console.log(myCustomers)
     }
@@ -42,7 +42,7 @@ function checkEmail(){
     
     myCustomers.forEach((customer => {
         if(customer.customerEmail == email){
-            checkPassword(password, customer.customerPassword)
+            checkPassword(password, customer.customerPassword, email)
             found = true
         }
 
@@ -54,9 +54,10 @@ function checkEmail(){
 
 }
 
-function checkPassword(password, customerPassword){
+function checkPassword(password, customerPassword, email){
 
     if(password == customerPassword){
+        localStorage.setItem('username', email)
         successfulLogin()
     }
     else{
@@ -69,7 +70,7 @@ function successfulLogin(){
 
     let html = `<h2>You have been logged in!</h2>`
     document.getElementById("app2").innerHTML = html
-
+    window.location.href = "customermenu.html"
 
 }
 

@@ -72,7 +72,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.OpenApi/8.0.10": {
+      "Microsoft.AspNetCore.OpenApi/8.0.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.OpenApi": "1.4.3"
@@ -690,10 +690,10 @@
         "lib/netstandard2.1/K4os.Hash.xxHash.xml"
       ]
     },
-    "Microsoft.AspNetCore.OpenApi/8.0.10": {
-      "sha512": "kzYiW/IbSN0xittjplA8eN1wrNcRi3DMalYRrEuF2xyf2Y5u7cGCfgN1oNZ+g3aBQzMKTQwYsY1PeNmC+P0WnA==",
+    "Microsoft.AspNetCore.OpenApi/8.0.0": {
+      "sha512": "T4mwMvPSOYAp+KeQ4xO8H2rxpiOMJ9W/7yBBkUTMp96AHtGlPN4s7hbax2tM61LxTY775JKL4fiv5grn41EHXw==",
       "type": "package",
-      "path": "microsoft.aspnetcore.openapi/8.0.10",
+      "path": "microsoft.aspnetcore.openapi/8.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -701,7 +701,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net8.0/Microsoft.AspNetCore.OpenApi.dll",
         "lib/net8.0/Microsoft.AspNetCore.OpenApi.xml",
-        "microsoft.aspnetcore.openapi.8.0.10.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.8.0.0.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
@@ -2074,25 +2074,25 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.AspNetCore.OpenApi >= 8.0.10",
+      "Microsoft.AspNetCore.OpenApi >= 8.0.0",
       "Swashbuckle.AspNetCore >= 6.6.2",
       "mysql.data >= 9.1.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dpmcc\\.nuget\\packages\\": {}
+    "C:\\Users\\roman\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\api.csproj",
-      "packagesPath": "C:\\Users\\dpmcc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dpmcc\\OneDrive\\Documents\\source\\fall24repos\\MIS321TitleTownCatering-G10\\api\\obj\\",
+      "projectPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\roman\\Desktop\\MIS 321\\321_Group_Project\\MIS321TitleTownCatering-G10\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dpmcc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2118,7 +2118,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
-            "version": "[8.0.10, )"
+            "version": "[8.0.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
