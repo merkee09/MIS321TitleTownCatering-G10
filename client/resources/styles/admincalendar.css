@@ -1,23 +1,44 @@
-#adminCalendar {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+body {
+    background-color: #d44a4a; 
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
+h1 {
+    color: white;
+}
+
+
+#adminCalendar {
+    width: 80%; 
+    margin: 20px auto; 
+    border-collapse: collapse;
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
 #adminCalendar th, #adminCalendar td {
-    border: 1px solid #ddd;
+    border: 5px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
+
 #adminCalendar th {
-    background-color: #f2f2f2;
+    background-color: #d44a4a; 
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
 }
+
 
 td.day {
     font-weight: bold;
     color: black; 
 }
+
 
 td.available span {
     color: black; 
@@ -27,7 +48,11 @@ td.available span {
     display: inline-block; 
 }
 
-td.event span, td.location span, td.time span, td.dishes span, td.total-dishes span {
+td.event span,
+td.location span,
+td.time span,
+td.dishes span,
+td.total-dishes span {
     color: black; 
     border-radius: 10px; 
     padding: 5px;
@@ -35,32 +60,18 @@ td.event span, td.location span, td.time span, td.dishes span, td.total-dishes s
     display: inline-block; 
 }
 
-table#adminCalendar th {
-    text-transform: uppercase; 
-    font-weight: bold; 
-    color: white; 
-    background-color: #d44a4a; 
-    padding: 10px; 
-    border-radius: 0; 
-}
 
-td:not(.available):not(.event):not(.location):not(.time):not(.dishes):not(.total-dishes) {
-    background-color: white; 
-}
-
-td span:empty {
-    display: none; 
-}
-
-.btn-adminHomeButton{
+.btn-adminHomeButton {
     cursor: pointer;
     color: white;
-    background-color:#9B9D64;
-    border:#9B9D64;
+    background-color: #9B9D64;
+    border: #9B9D64;
     width: 150px;
     height: 50px;
+    margin-top: 20px;
 }
 
-body{
-    text-align: center;
+html, body {
+    height: 100%; 
+    box-sizing: border-box;
 }

@@ -2,10 +2,9 @@ let myDishes = []
 const url = "http://localhost:5003/api/dish"
 
 async function handleOnLoad(){
-    await getAllDishes()
-    // sortDishes()
-    createDishTable()
-
+    await getAllDishes();
+    document.getElementById("formContainer").innerHTML ="";
+    createDishTable();
 }
 
 async function getAllDishes(){
@@ -16,14 +15,28 @@ async function getAllDishes(){
 }
 
 
-async function createDishTable(){
-    console.log(myDishes)
+async function createDishTable(filteredDishes = myDishes){
+    console.log(myDishes);
 
-
-
-    // sortDishes(myDishes)
+    const currencyFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
 
     let html = `
+    <div>
+        <label for="dishFilter">Filter by Dish Type: </label>
+        <select id="dishFilter" onchange="filterDishes()">
+            <option value="all">All</option>
+            <option value="entree">Entree</option>
+            <option value="dessert">Dessert</option>
+            <option value="appetizer">Appetizer</option>
+            <option value="drink">Drink</option>
+        </select>
+    </div><br>`
+    
+
+    html += `
     <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Dish</button>  <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Dishes</button><br><br>
     <table class="table">
   <tr>
@@ -38,10 +51,10 @@ async function createDishTable(){
     <th>Delete Dish</th>
   </tr>`
 
-    myDishes.forEach((dish) =>{
+    filteredDishes.forEach((dish) =>{
         let startAvailability = new Date(dish.dishStartAvailability)
         let endAvailability = new Date(dish.dishEndAvailability)
-        
+
         let startMonth = startAvailability.getMonth() + 1;  
         let startDay = startAvailability.getDate();         
 
@@ -55,8 +68,8 @@ async function createDishTable(){
             <td>${startMonth}-${startDay}</td>
             <td>${endMonth}-${endDay}</td>
             <td>${dish.dishType}</td>
-            <td>${dish.dishPrice}</td>
-            <td>${dish.dishCost}</td>
+            <td>${currencyFormatter.format(dish.dishPrice)}</td>
+            <td>${currencyFormatter.format(dish.dishCost)}</td>
             <td><img src="${dish.dishImage}" width="auto" height="75"alt="dish image>"</td>
             <td><button type="button" onclick ="handleEditForm('${dish.dishID}', '${dish.dishName}', '${startAvailability}', '${endAvailability}', '${dish.dishType}', '${dish.dishPrice}', '${dish.dishCost}', '${dish.dishImage}')"class="btn edit"><i class="bi bi-pencil"></i></button></td>
             <td><button type="button" onclick="handleDelete('${dish.dishID}')" class="btn delete"><i class="fa fa-trash"></i></button></td>
@@ -69,7 +82,12 @@ async function createDishTable(){
     <a href="./adminHome.html"><button id="adminHomeButton" class="btn btn-adminHomeButton">Admin Home Page</button></a>`
      
 
-    document.getElementById("app").innerHTML = html
+    document.getElementById("tableContainer").innerHTML = html
+
+    const currentFilter = document.getElementById("dishFilter").value;
+    if (currentFilter) {
+        document.getElementById("dishFilter").value = currentFilter;
+    }
 }
 
 
@@ -116,7 +134,9 @@ async function createDeletedTable(){
     <br>
     <button class="btn btn-primary btn-lg" onclick="handleOnLoad()">Back to Dishes</button>`;
 
-    document.getElementById("app").innerHTML = html;
+    document.getElementById("filterContainer").innerHTML ="";
+    document.getElementById("formContainer").innerHTML = "";
+    document.getElementById("tableContainer").innerHTML = html;
 }
 
 async function handleRestore(id){
@@ -134,6 +154,12 @@ async function handleRestore(id){
 
 
 function handleAddForm(){
+    const dishTypeOptions = `
+    <option value="appetizer">Appetizer</option>
+    <option value="entree">Entree</option>
+    <option value="dessert">Dessert</option>
+    <option value="drink">Drink</option>
+    `
 
 
     let html =
@@ -149,7 +175,7 @@ function handleAddForm(){
     <input type="date" id="endAvailability" name="endAvailability"><br>
 
     <label for="type">Type</label><br>
-    <input type="text" id="type" name="type"><br>
+    <select id="type" name"type">${dishTypeOptions}</select><br>
 
     <label for="price">Price</label><br>
     <input type="text" id="price" name="price"><br>
@@ -164,7 +190,10 @@ function handleAddForm(){
     <button onclick="handleOnLoad()" class="btn btn-primary">Back</button><br>
 </form>
     `
-    document.getElementById("app").innerHTML = html
+
+    document.getElementById("filterContainer").innerHTML = ""
+    document.getElementById("tableContainer").innerHTML = ""
+    document.getElementById("formContainer").innerHTML = html;
 }
 
 async function handleAdd(){
@@ -190,9 +219,17 @@ async function handleAdd(){
 
 
     handleOnLoad()
+    document.getElementById("formContainer").innnerHTML ="";
 }
 
 function handleEditForm(id, name, startAvailability, endAvailability, type, price, cost, image){
+
+    const dishTypeOptions =`
+    <option value="appetizer" ${type.toLowerCase() === "appetizer" ? "selected" : ""}>Appetizer</option>
+    <option value="entree" ${type.toLowerCase() === "entree" ? "selected" : ""}>Entree</option>
+    <option value="dessert" ${type.toLowerCase() === "dessert" ? "selected" : ""}>Dessert</option>
+    <option value="drink" ${type.toLowerCase() === "drink" ? "selected" : ""}>Drink</option>
+    `
 
     html = `
     <form onsubmit="return false">
@@ -206,7 +243,7 @@ function handleEditForm(id, name, startAvailability, endAvailability, type, pric
         <input type="date" id="endAvailability" name="endAvailability" value="${endAvailability}"><br>
 
         <label for="type">Type</label><br>
-        <input type="text" id="type" name="type" value="${type}"><br>
+        <select id="type" name"type">${dishTypeOptions}</select><br>
 
         <label for="price">Price</label><br>
         <input type="text" id="price" name="price" value="${price}"><br>
@@ -224,8 +261,11 @@ function handleEditForm(id, name, startAvailability, endAvailability, type, pric
 </form>
     </form>
     `;
+    document.getElementById("filterContainer").innerHTML ="";
+    document.getElementById("tableContainer").innerHTML ="";
+
     
-    document.getElementById("app").innerHTML = html;
+    document.getElementById("formContainer").innerHTML = html;
 }
 
 async function handleEdit(){
@@ -252,6 +292,7 @@ async function handleEdit(){
 
 
     handleOnLoad()
+    document.getElementById("formContainer"). innerHTML = "";
 }
 
 async function handleDelete(id){
@@ -268,26 +309,15 @@ async function handleDelete(id){
 
 }
 
-// async function handleFavorite(id){
+function filterDishes(){
+    const selectedType = document.getElementById("dishFilter").value;
+    const filteredDishes = 
+        selectedType === "all"
+        ? myDishes
+        : myDishes.filter((dish) => dish.dishType.toLowerCase() === selectedType.toLowerCase());
 
-//     await fetch(url+"/"+id, {
-//         method: "PUT",
-//         headers: {
-//             "Content-type": "application/json; charset=UTF-8"
-//         }
-//         });
-//     handleOnLoad()
+    console.log("Filtered Dishes", filteredDishes)
 
-// }
-
-// async function sortRecipes(myDishes) {
-//     myDishes.sort((a, b) => b.recipeRating - a.recipeRating);
-// }
-
-
-
-
-// <br>
-// <button class="btn btn-primary btn-lg" onclick="handleAddForm()">Add Recipe</button>
-// <button class="btn btn-primary btn-lg" onclick="createDeletedTable()">Deleted Recipes</button>
-// <button class="btn btn-primary btn-lg" onclick="createFavoriteTable('${myDishes}')">Favorite Recipes</button>
+    createDishTable(filteredDishes);
+    document.getElementById("dishFilter").value = selectedType;
+}

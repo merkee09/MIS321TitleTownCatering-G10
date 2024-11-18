@@ -45,5 +45,14 @@ namespace MyApp.Namespace
             return Ok(new { message = "Event created successfully", eventID});
         }
 
+        //GET: api/recipe
+        [HttpGet]
+        public async Task<List<Event>> Get()
+        {
+            EventDatabase myDatabase = new EventDatabase();
+            return await myDatabase.GetAllEvents();
+ 
+        }
+
     }
 }
