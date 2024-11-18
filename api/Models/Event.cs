@@ -24,5 +24,9 @@ namespace api.Models
         public DateTime EventDate {get; set; }
         public string EventVenueName {get; set; }
         public string EventCustomerEmail {get; set; }
+
+        //public List<Dishes> Dishes {get; set; }
+
+        //public List<int> dishAmounts{get; set; }
     }
 }

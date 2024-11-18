@@ -35,7 +35,7 @@ namespace MyApp.Namespace
             string conflictMessage = schedule.AddEvent(value);
             if (conflictMessage != "All clear")
             {
-                return BadRequest("Date or time selected is booked. Please try a different day or time.");
+                return BadRequest(conflictMessage);
             }
 
             // If no conflicts, insert the event
