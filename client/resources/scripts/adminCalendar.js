@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const adminCalendarBody = document.getElementById('adminCalendarBody');
-
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     // Fetch events from API
@@ -29,10 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     event: event.eventName || 'Available',
                     location: event.eventVenueName || '',
                     time: `${formatTime(eventStartDate)} - ${formatTime(eventEndDate)}`,
-                    dishes: event.dishes && event.dishes.trim() !== '' ? event.dishes : 'No dishes chosen',
+                    dishes: event.eventName === 'Available' ? '' : (event.dishes && event.dishes.trim() !== '' ? event.dishes : 'No dishes chosen'),
                 });
             });
 
+            console.log('Grouped Events:', groupedEvents); // Debugging log
             return groupedEvents;
         } catch (error) {
             console.error('Error fetching events:', error);
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dishCounts = {};
 
             dayEvents.forEach(event => {
-                if (typeof event.dishes === 'string' && event.dishes !== 'No dishes chosen') {
+                if (typeof event.dishes === 'string' && event.dishes !== '' && event.dishes !== 'No dishes chosen') {
                     const dishes = event.dishes.split(', ');
                     dishes.forEach(dish => {
                         const [quantity, ...dishNameParts] = dish.split(' ');
@@ -72,53 +72,64 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
-            return Object.entries(dishCounts).map(([dish, count]) => `${count} ${dish}`).join('<br>') || 'No dishes chosen';
+            const result = Object.entries(dishCounts).map(([dish, count]) => `${count} ${dish}`).join('<br>');
+            console.log('Aggregated Dishes:', result); // Debugging log
+            return result || null;
         };
 
         daysOfWeek.forEach(day => {
             const dayEvents = events[day] || [];
-            const maxEvents = 2;
+            console.log(`Events for ${day}:`, dayEvents); // Debugging log to ensure events are correctly grouped
+            const maxEvents = Math.max(dayEvents.length, 2); // Ensure a minimum of 2 rows per day
 
             for (let i = 0; i < maxEvents; i++) {
                 const event = dayEvents[i] || { event: 'Available', location: '', time: '', dishes: '' };
                 const row = document.createElement('tr');
 
+                // Add day name only for the first row of each day
                 if (i === 0) {
                     const dayCell = document.createElement('td');
                     dayCell.textContent = day;
                     dayCell.classList.add('day');
-                    dayCell.rowSpan = Math.max(dayEvents.length, maxEvents);
+                    dayCell.rowSpan = maxEvents;
                     row.appendChild(dayCell);
                 }
 
+                // Event cell
                 const eventCell = document.createElement('td');
                 eventCell.innerHTML = event.event ? `<span>${event.event}</span>` : '';
                 eventCell.classList.add(event.event === 'Available' ? 'available' : 'event');
                 row.appendChild(eventCell);
 
+                // Location cell
                 const locationCell = document.createElement('td');
                 locationCell.innerHTML = event.location ? `<span>${event.location}</span>` : '';
                 locationCell.classList.add('location');
                 row.appendChild(locationCell);
 
+                // Time cell
                 const timeCell = document.createElement('td');
                 timeCell.innerHTML = event.time ? `<span>${event.time}</span>` : '';
                 timeCell.classList.add('time');
                 row.appendChild(timeCell);
 
+                // Dishes cell
                 const dishesCell = document.createElement('td');
                 dishesCell.innerHTML = event.dishes ? `<span>${event.dishes.replace(/, /g, '<br>')}</span>` : '';
                 dishesCell.classList.add('dishes');
                 row.appendChild(dishesCell);
 
+                // Add total dishes only for the first row of each day
                 if (i === 0) {
                     const totalDishesCell = document.createElement('td');
-                    const totalDishes = dayEvents.length > 0 ? aggregateDishes(dayEvents) : '';
-                    totalDishesCell.innerHTML = totalDishes
-                        ? `<span>${totalDishes}</span>`
-                        : '<span>No dishes chosen</span>';
+                    if (dayEvents.length > 0) {
+                        const totalDishes = aggregateDishes(dayEvents); // Aggregate dishes if there are events
+                        totalDishesCell.innerHTML = totalDishes ? `<span>${totalDishes}</span>` : ''; // Blank if no valid dishes
+                    } else {
+                        totalDishesCell.innerHTML = ''; // Blank if no events
+                    }
                     totalDishesCell.classList.add('total-dishes');
-                    totalDishesCell.rowSpan = Math.max(dayEvents.length, maxEvents);
+                    totalDishesCell.rowSpan = maxEvents;
                     row.appendChild(totalDishesCell);
                 }
 
@@ -130,6 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize calendar
     const events = await fetchEvents();
     if (events) {
+        console.log('Final Grouped Events:', events); // Debugging log to inspect grouped events
         renderCalendar(events);
     }
 });
