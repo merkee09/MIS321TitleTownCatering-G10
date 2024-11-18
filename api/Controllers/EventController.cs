@@ -9,25 +9,19 @@ namespace MyApp.Namespace
 {
     [Route("api/[controller]")]
     [ApiController]
+
+
     public class EventController : ControllerBase
     {
-        // // GET:
-        // // GET:
-        // [HttpGet("{customerEmail}", Name = "Get")] 
-        // public async Task<List<Event>> Get(int id)
-        // {
-        //     EventDatabase myDatabase = new EventDatabase();
-        //     return await myDatabase.GetAllCustomerEvents(customerEmail);
-        // }
 
         // GET: api/recipe
-        // [HttpGet]
-        // public async Task<List<Dish>> Get()
-        // {
-        //     DishDatabase myDatabase = new DishDatabase();
-        //     return await myDatabase.GetAllDishes();
+        [HttpGet]
+        public async Task<List<Event>> Get()
+        {
+            EventDatabase myDatabase = new EventDatabase();
+            return await myDatabase.GetAllEvents();
 
-        // }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Event value)
@@ -45,8 +39,10 @@ namespace MyApp.Namespace
             }
 
             // If no conflicts, insert the event
-            await myDatabase.InsertEvent(value);
-            return Ok(new { message = "Event created successfully" });
+            int eventID = await myDatabase.InsertEvent(value);
+            // await myDatabase.InsertEvent(value);
+            System.Console.WriteLine(eventID);
+            return Ok(new { message = "Event created successfully", eventID});
         }
 
     }

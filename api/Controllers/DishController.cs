@@ -9,7 +9,7 @@ namespace api.Controllers
     [ApiController]
     public class DishController : ControllerBase
     {
-        // GET: api/recipe
+        // GET: api/dish
         [HttpGet]
         public async Task<List<Dish>> Get()
         {
@@ -19,15 +19,12 @@ namespace api.Controllers
         }
 
 
-
-        // // GET: api/recipe/{id}
-        // [HttpGet("{id}", Name = "Get")] 
-        // public async Task<List<Dish>> Get(int id)
+        // [HttpGet("{eventDate}")]
+        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
         // {
-        //     DishDatabase myDatabase = new DishDatabase();
-        //     return await myDatabase.GetDish(id);
+        //     DishDatabase myDatabase = new();
+        //     return await myDatabase.GetAllAvailableDishes(eventDate);
         // }
-
 
         //POST
         [HttpPost]

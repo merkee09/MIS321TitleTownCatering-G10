@@ -9,8 +9,8 @@ namespace api.Models
     {
         public int DishID { get; set; }
         public string DishName { get; set; }
-        public DateTime DishStartAvailability { get; set; }  
-        public DateTime DishEndAvailability { get; set; }
+        public DateTime? DishStartAvailability { get; set; }
+        public DateTime? DishEndAvailability { get; set; }    
         public string DishType { get; set; }
         public double DishPrice { get; set; }
         public double DishCost { get; set; }

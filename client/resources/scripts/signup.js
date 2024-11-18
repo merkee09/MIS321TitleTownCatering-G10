@@ -80,6 +80,7 @@ function checkEmail(){
 
     if(found == false){
         addCustomer(email, password, first, last, phone, referral)
+        localStorage.setItem('currentUser', email);
     }
 
 }
@@ -100,6 +101,9 @@ async function addCustomer(email, password, first, last, phone, referral){
             "Content-type": "application/json; charset=UTF-8"
         }
         });
+    
+    window.location.href = "customermenu.html";
+
 }
 
 

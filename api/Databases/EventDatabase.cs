@@ -104,11 +104,11 @@ namespace api.Databases
             return await SelectEvents(sql, parms);
         }
  
-        public async Task InsertEvent(Event myEvent){
+        public async Task<int> InsertEvent(Event myEvent){
  
  
             string sql = @$"INSERT INTO Events (event_health_allergens, event_child_attendance, event_total_attendance, event_address_one, event_address_two, event_city, event_zip_code, event_type, event_name, event_start_time, event_duration, event_date, event_venue_name, customer_email)
-                                VALUES (@eventHealthAllergens, @eventChildAttendance, @eventTotalAttendance, @eventVenueAddressOne, @eventVenueAddressTwo, @eventVenueCity, @eventVenueZipCode, @eventType, @eventName, @eventStartTime, @eventDuration, @eventDate, @eventVenueName, @customerEmail);";
+                                VALUES (@eventHealthAllergens, @eventChildAttendance, @eventTotalAttendance, @eventVenueAddressOne, @eventVenueAddressTwo, @eventVenueCity, @eventVenueZipCode, @eventType, @eventName, @eventStartTime, @eventDuration, @eventDate, @eventVenueName, @customerEmail); SELECT LAST_INSERT_ID();";
  
             List<MySqlParameter> parms = new();
 
@@ -131,7 +131,17 @@ namespace api.Databases
             
  
  
-            await EventsNoReturnSQL(sql, parms);
+            ConnectionString myConnection = new ConnectionString();
+            string cs = myConnection.cs;
+
+            using var connection = new MySqlConnection(cs);
+            await connection.OpenAsync();
+
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddRange(parms.ToArray());
+
+            object result = await command.ExecuteScalarAsync();
+            return Convert.ToInt32(result);
         }
  
     }
