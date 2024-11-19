@@ -39,6 +39,7 @@ namespace api.Databases
                     CustomerLastName = reader.GetString(3),
                     CustomerPhone = reader.GetString(4),
                     CustomerReferral = reader.GetString(5),
+                    CustomerRegistrationDate = reader.GetDateTime(6)
                 });
             }
 

@@ -43,7 +43,8 @@ namespace api.Databases
                 DishPrice = reader.GetDouble(5),
                 DishCost = reader.GetDouble(6),
                 DishImage = reader.GetString(7),
-                DishIsDeleted = reader.GetBoolean(8)
+                DishIsDeleted = reader.GetBoolean(8),
+                Popularity = reader.GetInt32(9)
             });         
             }
 
