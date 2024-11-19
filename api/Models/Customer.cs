@@ -13,6 +13,8 @@ namespace api.Models
         public string CustomerLastName { get; set; }
         public string CustomerPhone { get; set; }
         public string CustomerReferral { get; set; }
+
+        public DateTime CustomerRegistrationDate { get; set; }
         
     }
 

@@ -16,6 +16,7 @@ namespace api.Models
         public double DishCost { get; set; }
         public string DishImage { get; set; }
         public bool DishIsDeleted { get; set; }
+        public int Popularity {  get; set; }
         
     }
 }
