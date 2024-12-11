@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using api.Models;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.ObjectPool;
+using Microsoft.AspNetCore.Cors;
 
 namespace MyApp.Namespace
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("OpenPolicy")]
 
 
     public class EventController : ControllerBase
@@ -21,6 +23,13 @@ namespace MyApp.Namespace
             EventDatabase myDatabase = new EventDatabase();
             return await myDatabase.GetAllEvents();
 
+        }
+
+        [HttpGet("{eventID}")]
+        public async Task<List<Event>> GetEventInformation(int eventID)
+        {
+            EventDatabase myDatabase = new();
+            return await myDatabase.GetEventInformation(eventID);
         }
 
         [HttpPost]
@@ -43,15 +52,6 @@ namespace MyApp.Namespace
             // await myDatabase.InsertEvent(value);
             System.Console.WriteLine(eventID);
             return Ok(new { message = "Event created successfully", eventID});
-        }
-
-        //GET: api/recipe
-        [HttpGet]
-        public async Task<List<Event>> Get()
-        {
-            EventDatabase myDatabase = new EventDatabase();
-            return await myDatabase.GetAllEvents();
- 
         }
 
     }

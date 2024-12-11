@@ -8,21 +8,22 @@
     <title>Customer Menu</title>
     <script src="./resources/scripts/customermenu.js"></script>
 </head>
-<body class="customer-body">
-    
+<body class="customer-body" onload="handleOnLoad()">
+    <div id="divlogout"></div>
     <div class="jumbotron">
         <h1>Customer Menu</h1>
     </div>
     <h2 class="customer-header">View Your Events</h2>
 
-    <div class="table-container">
-        <table class="table">
+    <div id="customermenu" class="table-container">
+        <!-- <table class="table">
             <thead>
                 <tr>
                     <th>Event Name</th>
                     <th>Event Type</th>
                     <th>Event Time</th>
                     <th>Date</th>
+                    <th>Dishes Ordered</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                     <td>Graduation</td>
                     <td>1:00 PM</td>
                     <td>10/29/2024</td>
+                    <td> </td>
                     <td>Pending</td>
                 </tr>
                 <tr>
@@ -39,15 +41,18 @@
                     <td>Corporate</td>
                     <td>12:00 PM</td>
                     <td>10/28/2024</td>
+                    <td> </td>
                     <td>Completed</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
     </div>
 
 
-    <div class="jumbotron-bottom">
-        <button class="schedule-button">Schedule Event</button>
-    
+    <div class="container">
+        <button class="schedule-button" onclick="window.location.href='eventcreation.html'">Schedule Event</button>
     </div>
 
+    <script src="./resources/scripts/customermenu.js"></script>
+
+</body>

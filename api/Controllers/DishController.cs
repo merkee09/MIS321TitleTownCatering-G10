@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Databases;
 using api.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("OpenPolicy")]
+
     public class DishController : ControllerBase
     {
         // GET: api/dish
@@ -19,12 +22,22 @@ namespace api.Controllers
         }
 
 
-        // [HttpGet("{eventDate}")]
-        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
-        // {
-        //     DishDatabase myDatabase = new();
-        //     return await myDatabase.GetAllAvailableDishes(eventDate);
-        // }
+        // GET: api/dish/top
+        [HttpGet("top")]
+        public async Task<List<Dish>> Get(DateTime startDate, DateTime endDate)
+        {
+            DishDatabase myDatabase = new DishDatabase();
+            return await myDatabase.GetTopFiveDishes(startDate, endDate);
+        }
+
+
+        // GET: api/dish/available?eventDate=YYYY-MM-DD
+        [HttpGet("available")]
+        public async Task<List<Dish>> GetAllAvailableDishes([FromQuery] DateTime eventDate)
+        {
+            DishDatabase myDatabase = new();
+            return await myDatabase.GetAllAvailableDishes(eventDate);
+        }
 
         //POST
         [HttpPost]

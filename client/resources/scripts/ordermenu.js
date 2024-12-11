@@ -2,63 +2,44 @@ let MyOrderItmes = []
 let dishesOrdered = []
 let myDishes = []
 let availableDishes = []
+
+
 let eventDate = localStorage.getItem('eventDate')
 let eventID = localStorage.getItem('eventID')
+let eventAttendance = localStorage.getItem('eventAttendance')
+let totalAttendance = localStorage.getItem('totalAttendance')
+
+
 const url = "http://localhost:5003/api/dish"
 console.log(eventDate)
 console.log(eventID)
 
 async function handleOnLoad() {
-    await getAllDishes() 
-    getAllAvailableDishes(myDishes, eventDate) 
+    // await getAllDishes() 
+    await getAllAvailableDishes(eventDate)
+    console.log(availableDishes)
     createAppetizerPage()
 }
 
-async function getAllDishes() {
-    let response = await fetch(url)
+// async function getAllDishes() {
+//     let response = await fetch(url)
+//     if (response.status == 200) {
+//         myDishes = await response.json()
+//     } else {
+//         console.error("Failed to fetch dishes:", response.status)
+//     }
+// }
+
+async function getAllAvailableDishes(eventDate) {
+    let dishurl = `http://localhost:5003/api/dish/available?eventDate=${eventDate}`
+    let response = await fetch(dishurl)
     if (response.status == 200) {
-        myDishes = await response.json()
+        availableDishes = await response.json()
     } else {
         console.error("Failed to fetch dishes:", response.status)
     }
 }
 
-function getAllAvailableDishes(myDishes, eventDate) {
-    availableDishes = [] 
-    myDishes.forEach((dish) => {
-        let isAvailable = isDishAvailable(eventDate, dish.dishStartAvailability, dish.dishEndAvailability)
-        if (isAvailable) {
-            availableDishes.push(dish) 
-        }
-    })
-}
-
-function isDishAvailable(eventDate, dishStartAvailability, dishEndAvailability) {
-
-    let eventDateObj = new Date(eventDate)
-    let startAvailability = new Date(dishStartAvailability)
-    let endAvailability = new Date(dishEndAvailability)
-
-    let eventMonth = eventDateObj.getMonth()
-    let eventDay = eventDateObj.getDate()
-    let startMonth = startAvailability.getMonth()
-    let startDay = startAvailability.getDate()
-    let endMonth = endAvailability.getMonth()
-    let endDay = endAvailability.getDate()
-
-
-    if (startMonth <= endMonth) {
-        return (
-            (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) &&
-            (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
-        )
-    }
-
-    return (
-        (eventMonth > startMonth || (eventMonth === startMonth && eventDay >= startDay)) ||
-        (eventMonth < endMonth || (eventMonth === endMonth && eventDay <= endDay))
-    )
-}
 
 function createAppetizerPage() {
     let html = `
@@ -99,7 +80,7 @@ function createAppetizerPage() {
                                 min="0" 
                                 value="${currentServings}" 
                                 data-dish-id="${dish.dishID}" 
-                                onchange="updateOrder(${eventID}, ${dish.dishID}, this.value, ${dish.dishPrice})"
+                                onchange="updateOrder(${eventID}, ${dish.dishID}, '${dish.dishName}', this.value, ${dish.dishPrice})"
                             >
                         </td>
                     </tr>
@@ -161,7 +142,7 @@ function createEntreePage() {
                                 min="0" 
                                 value="${currentServings}" 
                                 data-dish-id="${dish.dishID}" 
-                                onchange="updateOrder(${eventID}, ${dish.dishID}, this.value, ${dish.dishPrice})"
+                                onchange="updateOrder(${eventID}, ${dish.dishID}, '${dish.dishName}', this.value, ${dish.dishPrice})"
                             >
                         </td>
                     </tr>
@@ -223,7 +204,7 @@ function createDessertPage() {
                                 min="0" 
                                 value="${currentServings}" 
                                 data-dish-id="${dish.dishID}" 
-                                onchange="updateOrder(${eventID}, ${dish.dishID}, this.value, ${dish.dishPrice})"
+                                onchange="updateOrder(${eventID}, ${dish.dishID}, '${dish.dishName}', this.value, ${dish.dishPrice})"
                             >
                         </td>
                     </tr>
@@ -285,7 +266,7 @@ function createDrinkPage() {
                                 min="0" 
                                 value="${currentServings}" 
                                 data-dish-id="${dish.dishID}" 
-                                onchange="updateOrder(${eventID}, ${dish.dishID}, this.value, ${dish.dishPrice})"
+                                onchange="updateOrder(${eventID}, ${dish.dishID}, '${dish.dishName}', this.value, ${dish.dishPrice})"
                             >
                         </td>
                     </tr>
@@ -308,7 +289,8 @@ function createDrinkPage() {
 }
 
 
-function updateOrder(eventID, dishID, quantity, dishPrice) {
+function updateOrder(eventID, dishID, dishName, quantity, dishPrice) {
+
 
     let existingItem = dishesOrdered.find(item => item.dishID === dishID);
 
@@ -323,7 +305,7 @@ function updateOrder(eventID, dishID, quantity, dishPrice) {
         }
     } else if (quantity > 0) {
 
-        dishesOrdered.push({ eventID, dishID, quantity, dishPrice });
+        dishesOrdered.push({ eventID, dishID, dishName, quantity, dishPrice });
     }
 
     console.log("Current Order Items:", dishesOrdered);

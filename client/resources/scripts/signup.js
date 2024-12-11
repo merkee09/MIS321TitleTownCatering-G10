@@ -86,6 +86,8 @@ function checkEmail(){
 }
 
 async function addCustomer(email, password, first, last, phone, referral){
+    localStorage.setItem('username', email)
+    
     let customer = {
         customerEmail: email,
         customerPassword: password,

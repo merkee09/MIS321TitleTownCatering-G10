@@ -6,21 +6,22 @@
   width: 150px;
   height: 50px;
 }
-  
+
 body{
   background-color: #d44a4a;
   text-align: center;
 }
-  
+
 .referralStatisticsHeader{
   color: white;
 }
-  
+
 .chart-container {
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
   margin-bottom: 20px;
+  background-color: white;
 }
   
   

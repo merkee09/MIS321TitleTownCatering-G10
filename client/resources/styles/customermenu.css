@@ -23,11 +23,51 @@
     border-radius: 10px;
     overFlow: hidden;
     width: 90%;
+    background-color: rgb(163, 163, 105);
 }
 
 .table, th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+}
+
+.schedule-button {
+    background-color: rgb(163, 163, 105);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    font-family: 'Eczar', serif;
+    font-weight: 500;
+    margin-left: 30px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    margin-bottom: 1%;
+}
+
+.log-out-btn {
+    background-color: rgb(163, 163, 105);
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    font-family: 'Eczar', serif;
+    font-weight: 500;
+    margin-left: 90%;
+    margin-top: 1%;
 }
 

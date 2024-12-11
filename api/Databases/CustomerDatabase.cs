@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using System.Configuration;
+using Org.BouncyCastle.Asn1.Icao;
 
 namespace api.Databases
 {
@@ -39,6 +40,8 @@ namespace api.Databases
                     CustomerLastName = reader.GetString(3),
                     CustomerPhone = reader.GetString(4),
                     CustomerReferral = reader.GetString(5),
+                    CustomerCreatedDate = reader.GetDateTime(6),
+                    CustomerIsAdmin = reader.GetBoolean(7)
                 });
             }
 
@@ -65,6 +68,8 @@ namespace api.Databases
         }
         public async Task<List<Customer>> GetAllCustomers()
         {
+
+            System.Console.WriteLine("Made it to database");
             string sql = "SELECT * FROM Customers;";
 
             List<MySqlParameter> parms = new();

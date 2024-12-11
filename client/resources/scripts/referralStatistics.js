@@ -25,7 +25,12 @@ async function getAllCustomers(){
 
 function AddReferrals(checkCustomers){
   console.log(checkCustomers)
+  // const currentDate = new Date();
+  // const pastSixMonths = new Date();
+  // pastSixMonths.setMonth(currentDate.getMonth() - 6)
   checkCustomers.forEach((customer => {
+    // const signUpDate = new Date(customer.signUpDate)
+    // if(signUpDate >= pastSixMonths && signUpDate <= currentDate){
     if(customer.customerReferral == "Google"){
       google++
     }else if(customer.customerReferral == "Social Media"){
@@ -37,7 +42,9 @@ function AddReferrals(checkCustomers){
     }else if(customer.customerReferral == "Other"){
       other++
     }
-  }))
+  }
+// }
+))
   console.log(socialmedia)
 
   //W3Schools bar chart

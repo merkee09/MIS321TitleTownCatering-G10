@@ -1,7 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const adminCalendarBody = document.getElementById('adminCalendarBody');
-
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Helper function to calculate the current week range
+    function getCurrentWeekRange() {
+        const now = new Date();
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay()); // Set to Sunday
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Saturday
+
+        return { startOfWeek, endOfWeek };
+    }
 
     // Fetch events from API
     async function fetchEvents() {
@@ -12,32 +23,77 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             const eventData = await response.json();
 
-            // Group events by days of the week
-            const groupedEvents = daysOfWeek.reduce((acc, day) => {
-                acc[day] = [];
-                return acc;
-            }, {});
+            const { startOfWeek, endOfWeek } = getCurrentWeekRange();
 
-            eventData.forEach(event => {
-                const eventStartDate = new Date(event.eventStartTime);
-                const eventDuration = parseInt(event.eventDuration, 10) || 0;
-                const eventEndDate = new Date(eventStartDate);
-                eventEndDate.setHours(eventStartDate.getHours() + eventDuration);
-
-                const dayName = daysOfWeek[eventStartDate.getDay()];
-                groupedEvents[dayName].push({
-                    event: event.eventName || 'Available',
-                    location: event.eventVenueName || '',
-                    time: `${formatTime(eventStartDate)} - ${formatTime(eventEndDate)}`,
-                    dishes: event.dishes && event.dishes.trim() !== '' ? event.dishes : 'No dishes chosen',
-                });
+            // Filter events within the current week
+            return eventData.filter(event => {
+                const eventDate = new Date(event.eventStartTime);
+                return eventDate >= startOfWeek && eventDate <= endOfWeek;
             });
-
-            return groupedEvents;
         } catch (error) {
             console.error('Error fetching events:', error);
-            return null;
+            return [];
         }
+    }
+
+    // Fetch order items (dishes) from API
+    async function fetchOrderItems() {
+        try {
+            const response = await fetch('http://localhost:5003/api/orderitems');
+            if (!response.ok) {
+                throw new Error('Failed to fetch order items');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching order items:', error);
+            return [];
+        }
+    }
+
+    // Fetch dish details from API
+    async function fetchDishes() {
+        try {
+            const response = await fetch('http://localhost:5003/api/dish');
+            if (!response.ok) {
+                throw new Error('Failed to fetch dishes');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching dishes:', error);
+            return [];
+        }
+    }
+
+    // Combine events, order items, and dishes
+    async function fetchEventsWithDishes() {
+        const events = await fetchEvents();
+        const orderItems = await fetchOrderItems();
+        const dishes = await fetchDishes();
+
+
+        const dishMap = {};
+        dishes.forEach(dish => {
+            dishMap[dish.dishID] = dish.dishName; // Assuming dishID and dishName are in the API
+        });
+
+        // Combine order items with dish names
+        const orderItemsWithDishes = orderItems.map(orderItem => ({
+            ...orderItem,
+            dishName: dishMap[orderItem.dishID] || 'Unknown Dish',
+        }));
+
+        // Match order items to events
+        return events.map(event => {
+            const eventOrderItems = orderItemsWithDishes.filter(orderItem => orderItem.eventID === event.eventID);
+
+            // Combine dish information into a readable format
+            const eventDishes = eventOrderItems.map(orderItem => `${orderItem.quantity} ${orderItem.dishName}`);
+
+            return {
+                ...event,
+                dishes: eventDishes.length > 0 ? eventDishes.join(', ') : 'No dishes chosen',
+            };
+        });
     }
 
     // Helper function to format time
@@ -56,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dishCounts = {};
 
             dayEvents.forEach(event => {
-                if (typeof event.dishes === 'string' && event.dishes !== 'No dishes chosen') {
+                if (typeof event.dishes === 'string' && event.dishes !== '' && event.dishes !== 'No dishes chosen') {
                     const dishes = event.dishes.split(', ');
                     dishes.forEach(dish => {
                         const [quantity, ...dishNameParts] = dish.split(' ');
@@ -72,37 +128,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
-            return Object.entries(dishCounts).map(([dish, count]) => `${count} ${dish}`).join('<br>') || 'No dishes chosen';
+            return Object.entries(dishCounts).map(([dish, count]) => `${count} ${dish}`).join('<br>');
         };
 
         daysOfWeek.forEach(day => {
-            const dayEvents = events[day] || [];
-            const maxEvents = 2;
+            const dayEvents = events.filter(event => {
+                const eventStartDate = new Date(event.eventStartTime);
+                return daysOfWeek[eventStartDate.getDay()] === day;
+            });
+
+            const maxEvents = Math.max(dayEvents.length, 2); // Minimum 2 rows per day
 
             for (let i = 0; i < maxEvents; i++) {
-                const event = dayEvents[i] || { event: 'Available', location: '', time: '', dishes: '' };
+                const event = dayEvents[i] || { eventName: 'Available', eventVenueName: '', eventStartTime: '', dishes: '' };
                 const row = document.createElement('tr');
 
                 if (i === 0) {
                     const dayCell = document.createElement('td');
                     dayCell.textContent = day;
                     dayCell.classList.add('day');
-                    dayCell.rowSpan = Math.max(dayEvents.length, maxEvents);
+                    dayCell.rowSpan = maxEvents;
                     row.appendChild(dayCell);
                 }
 
                 const eventCell = document.createElement('td');
-                eventCell.innerHTML = event.event ? `<span>${event.event}</span>` : '';
-                eventCell.classList.add(event.event === 'Available' ? 'available' : 'event');
+                eventCell.innerHTML = event.eventName ? `<span>${event.eventName}</span>` : '';
+                eventCell.classList.add(event.eventName === 'Available' ? 'available' : 'event');
                 row.appendChild(eventCell);
 
                 const locationCell = document.createElement('td');
-                locationCell.innerHTML = event.location ? `<span>${event.location}</span>` : '';
+                locationCell.innerHTML = event.eventVenueName ? `<span>${event.eventVenueName}</span>` : '';
                 locationCell.classList.add('location');
                 row.appendChild(locationCell);
 
                 const timeCell = document.createElement('td');
-                timeCell.innerHTML = event.time ? `<span>${event.time}</span>` : '';
+                const eventStartDate = event.eventStartTime ? new Date(event.eventStartTime) : null;
+                const eventEndDate = eventStartDate ? new Date(eventStartDate) : null;
+                if (eventEndDate) eventEndDate.setHours(eventStartDate.getHours() + (parseInt(event.eventDuration, 10) || 0));
+                timeCell.innerHTML = eventStartDate ? `<span>${formatTime(eventStartDate)} - ${formatTime(eventEndDate)}</span>` : '';
                 timeCell.classList.add('time');
                 row.appendChild(timeCell);
 
@@ -111,14 +174,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dishesCell.classList.add('dishes');
                 row.appendChild(dishesCell);
 
+                // Add TOTAL DISHES cell only for the first row of each day
                 if (i === 0) {
                     const totalDishesCell = document.createElement('td');
-                    const totalDishes = dayEvents.length > 0 ? aggregateDishes(dayEvents) : '';
-                    totalDishesCell.innerHTML = totalDishes
-                        ? `<span>${totalDishes}</span>`
-                        : '<span>No dishes chosen</span>';
+                    if (dayEvents.length === 0) {
+                        // No events at all
+                        totalDishesCell.innerHTML = '';
+                    } else if (dayEvents.some(event => event.eventName !== 'Available')) {
+                        const totalDishes = aggregateDishes(dayEvents);
+                        totalDishesCell.innerHTML = totalDishes ? `<span>${totalDishes}</span>` : `<span>No dishes chosen</span>`;
+                    } else {
+                        totalDishesCell.innerHTML = ''; // Leave blank if no valid events
+                    }
                     totalDishesCell.classList.add('total-dishes');
-                    totalDishesCell.rowSpan = Math.max(dayEvents.length, maxEvents);
+                    totalDishesCell.rowSpan = maxEvents;
                     row.appendChild(totalDishesCell);
                 }
 
@@ -128,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // Initialize calendar
-    const events = await fetchEvents();
+    const events = await fetchEventsWithDishes();
     if (events) {
         renderCalendar(events);
     }

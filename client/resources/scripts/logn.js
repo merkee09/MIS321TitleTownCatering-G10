@@ -11,8 +11,6 @@ async function getAllCustomers(){
     let resopnse = await fetch(url)
     if(resopnse.status == 200){
         myCustomers = await resopnse.json()
-
-        console.log(myCustomers)/Users/baileygraceliddle/Documents/mis321/final321proj/MIS321TitleTownCatering-G10/client/customermenu.html
     }
 }
 
@@ -42,7 +40,8 @@ function checkEmail(){
     
     myCustomers.forEach((customer => {
         if(customer.customerEmail == email){
-            checkPassword(password, customer.customerPassword, email)
+            checkPassword(password, customer.customerPassword, email, customer.customerIsAdmin)
+
             found = true
         }
 
@@ -54,11 +53,11 @@ function checkEmail(){
 
 }
 
-function checkPassword(password, customerPassword, email){
+function checkPassword(password, customerPassword, email, isAdmin){
 
     if(password == customerPassword){
-        successfulLogin()
-        localStorage.setItem('currentUser', email);
+        localStorage.setItem('username', email)
+        successfulLogin(isAdmin)
     }
     else{
         failedLogin()
@@ -66,11 +65,20 @@ function checkPassword(password, customerPassword, email){
 
 }
 
-function successfulLogin(){
+function successfulLogin(isAdmin){
 
     let html = `<h2>You have been logged in!</h2>`
     document.getElementById("app2").innerHTML = html
-    window.location.href = "customermenu.html"
+
+
+
+    if(isAdmin == true){
+        window.location.href = "adminHome.html"
+    }
+
+    else{
+        window.location.href = "customermenu.html"
+    }
 
 
 }

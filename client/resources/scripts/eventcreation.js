@@ -1,6 +1,6 @@
 let myEvents = []
 const url = "http://localhost:5003/api/event"
- 
+
 function handleOnLoad(){
     createEventForm()
 }
@@ -98,7 +98,7 @@ function createEventForm(){
         <div class="col">
             <form class="vertical-form">
                 <div class="form-group">
-                    <label for="totalattendance">Total Attendance</label>
+                    <label for="totalattendance">Total Attendance (including children)</label>
                     <input type="text" id="totalattendance" name="totalattendance">
                 </div>
                 <br>
@@ -123,7 +123,11 @@ function createEventForm(){
  
 async function addNewEvent(){
     const eventDate = document.getElementById('eventdate').value; 
-    const eventTime = document.getElementById('eventtime').value; 
+    const eventTime = document.getElementById('eventtime').value;
+    eventChildAttendance = document.getElementById('childattendance').value
+    eventTotalAttendance = document.getElementById('totalattendance').value
+    let totalAttendanceCalculated = getTotalAttendance(eventTotalAttendance, eventChildAttendance)
+    localStorage.setItem('totalAttendance', totalAttendanceCalculated)
 
     const eventDateTime = eventDate.slice(0, 10) + eventTime;
 
@@ -143,8 +147,8 @@ async function addNewEvent(){
         eventVenueName: document.getElementById('venuename').value,
         eventCustomerEmail: localStorage.getItem('username')
     }
- 
     console.log(event)
+ 
  
     try {
         const response = await fetch(url, {
@@ -173,3 +177,9 @@ async function addNewEvent(){
 
 }
  
+
+function getTotalAttendance(eventTotalAttendance, eventChildAttendance){
+
+    let attendanceBalanced = Math.ceil(eventTotalAttendance + (eventChildAttendance / 2))
+    return attendanceBalanced
+}

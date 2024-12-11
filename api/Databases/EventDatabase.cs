@@ -34,7 +34,7 @@ namespace api.Databases
             if(parms != null){
                 command.Parameters.AddRange(parms.ToArray());
             }
- 
+
  
             using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -105,6 +105,7 @@ namespace api.Databases
         }
  
         public async Task<int> InsertEvent(Event myEvent){
+            System.Console.WriteLine("made it to event database");
  
  
             string sql = @$"INSERT INTO Events (event_health_allergens, event_child_attendance, event_total_attendance, event_address_one, event_address_two, event_city, event_zip_code, event_type, event_name, event_start_time, event_duration, event_date, event_venue_name, customer_email)
@@ -142,6 +143,18 @@ namespace api.Databases
 
             object result = await command.ExecuteScalarAsync();
             return Convert.ToInt32(result);
+        }
+
+
+        public async Task<List<Event>> GetEventInformation(int eventID){
+            string sql = $"SELECT * FROM Events WHERE event_id = @eventID;";
+ 
+ 
+            List<MySqlParameter> parms = new();
+ 
+ 
+            parms.Add(new MySqlParameter("@eventID", MySqlDbType.String) {Value = eventID});
+            return await SelectEvents(sql, parms);
         }
  
     }

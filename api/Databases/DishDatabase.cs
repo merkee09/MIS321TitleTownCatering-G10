@@ -82,56 +82,55 @@ namespace api.Databases
 
         }
 
-        // public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
-        // {
-        //     string sql = @$"
+        public async Task<List<Dish>> GetAllAvailableDishes(DateTime eventDate)
+        {
+            string sql = @$"
             
-        //     SELECT * 
-        //     FROM Dishes
-        //     WHERE dish_deleted != TRUE 
-        //     AND (
-        //         (
-        //         MONTH(dish_start_availability) <= MONTH(dish_end_availability)
-        //         AND (
-        //             (
-        //             MONTH(@eventDate) > MONTH(dish_start_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
-        //             )
-        //             AND (
-        //             MONTH(@eventDate) < MONTH(dish_end_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
-        //             )
-        //         )
-        //         )
-        //         OR (
-        //         MONTH(dish_start_availability) > MONTH(dish_end_availability)
-        //         AND (
-        //             (
-        //             MONTH(@eventDate) > MONTH(dish_start_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
-        //             )
-        //             OR (
-        //             MONTH(@eventDate) < MONTH(dish_end_availability)
-        //             OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
-        //             )
-        //         )
-        //         )
-        //     );";
+            SELECT * 
+            FROM Dishes
+            WHERE dish_deleted != TRUE 
+            AND (
+                (
+                MONTH(dish_start_availability) <= MONTH(dish_end_availability)
+                AND (
+                    (
+                    MONTH(@eventDate) > MONTH(dish_start_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+                    )
+                    AND (
+                    MONTH(@eventDate) < MONTH(dish_end_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+                    )
+                )
+                )
+                OR (
+                MONTH(dish_start_availability) > MONTH(dish_end_availability)
+                AND (
+                    (
+                    MONTH(@eventDate) > MONTH(dish_start_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_start_availability) AND DAY(@eventDate) >= DAY(dish_start_availability))
+                    )
+                    OR (
+                    MONTH(@eventDate) < MONTH(dish_end_availability)
+                    OR (MONTH(@eventDate) = MONTH(dish_end_availability) AND DAY(@eventDate) <= DAY(dish_end_availability))
+                    )
+                )
+                )
+            );";
 
-        //     List<MySqlParameter> parms = new()
-        //     {
-        //         new MySqlParameter("@eventDate", MySqlDbType.Date) { Value = eventDate }
-        //     };
+            List<MySqlParameter> parms = new()
+            {
+                new MySqlParameter("@eventDate", MySqlDbType.Date) { Value = eventDate }
+            };
 
-        //     Console.WriteLine($"SQL: {sql}");
-        //     Console.WriteLine($"Parameters: eventDate = {eventDate}");
+            Console.WriteLine($"SQL: {sql}");
+            Console.WriteLine($"Parameters: eventDate = {eventDate}");
 
-        //     return await SelectDishes(sql, parms);
+            return await SelectDishes(sql, parms);
 
 
-        // }
+        }
 
-        //METHOD TO GET ONE DISH BASED ON ID
         public async Task<List<Dish>> GetDish(int id){
             string sql = $"SELECT * FROM Dishes WHERE dish_id = @id;";
 
@@ -143,8 +142,11 @@ namespace api.Databases
 
             public async Task InsertDish(Dish dish){
 
-            dish.DishStartAvailability ??= DateTime.MinValue;
-            dish.DishEndAvailability ??= DateTime.MaxValue;
+                dish.DishStartAvailability ??= new DateTime(1000, 1, 1);
+                dish.DishEndAvailability ??= new DateTime(9999, 12, 31);
+
+            // dish.DishStartAvailability ??= DateTime.MinValue;
+            // dish.DishEndAvailability ??= DateTime.MaxValue;
 
             string sql = @$"INSERT INTO Dishes (dish_name, dish_start_availability, dish_end_availability, dish_type, dish_price, dish_cost, dish_image) 
                                 VALUES (@dishName, @dishStartAvailability, @dishEndAvailability, @dishType, @dishPrice, @dishCost, @dishImage);";
@@ -174,8 +176,11 @@ namespace api.Databases
         }
 
         public async Task UpdateDish(Dish dish){
-            dish.DishStartAvailability ??= DateTime.MinValue;
-            dish.DishEndAvailability ??= DateTime.MaxValue;
+
+            dish.DishStartAvailability ??= new DateTime(1000, 1, 1);
+            dish.DishEndAvailability ??= new DateTime(9999, 12, 31);
+            // dish.DishStartAvailability ??= DateTime.MinValue;
+            // dish.DishEndAvailability ??= DateTime.MaxValue;
 
 
 
@@ -221,6 +226,40 @@ namespace api.Databases
             return await SelectDishes(sql, parms);
 
         }
+
+        public async Task<List<Dish>> GetEventDishes(int eventid){
+            string sql = $"SELECT * FROM Dishes JOIN OrderItems ON OrderItems.dish_id = Dishes.dish_id WHERE OrderItems.event_id = @eventid";  //get orders where dish matches, then find every order with event.
+            List<MySqlParameter> parms = new();
+            return await SelectDishes(sql, parms);
+        }
+
+        public async Task<List<Dish>> GetTopFiveDishes(DateTime StartDate, DateTime EndDate){
+            string sql = @"
+
+                        SELECT
+                            d.dish_name,
+                            d.dish_cost,
+                            d.dish_price,
+                            oi.quantity AS item_quantity
+                        FROM
+                            Dishes d
+                        JOIN
+                            OrderItems oi ON d.dish_id = oi.dish_id
+                        WHERE
+                            oi.order_date BETWEEN @StartDate AND @EndDate
+                        ORDER BY
+                            oi.quantity DESC
+                        LIMIT 5;
+
+                    ";
+            List<MySqlParameter> parms = new();
+            parms.Add(new MySqlParameter("@StartDate", MySqlDbType.DateTime) {Value = StartDate});
+            parms.Add(new MySqlParameter("@EndDate", MySqlDbType.DateTime) {Value = EndDate});
+            return await SelectDishes(sql, parms);
+        }
+
+
+        
         
     }
 }

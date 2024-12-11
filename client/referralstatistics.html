@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Referral Statistics</title>
-    <link rel="stylesheet" href="./resources/styles/referralStatistics.css">
+    <link rel="stylesheet" href="./resources/styles/referralstatistics.css">
 </head>
 
 <!-- W3Schools src for bar chart -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-<body>
-    <h1 class="menustatisticsHeader">Referral Statistics</h1>
+<body onload="handleOnLoad()">
+    <h1 class="referralStatisticsHeader">Referral Statistics</h1>
 
+    <div class="chart-container">
     <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-    
+    </div>
 
 
     <a href="./adminhome.html"><button class="btn btn-adminHomeButton">Admin Home Page</button></a>

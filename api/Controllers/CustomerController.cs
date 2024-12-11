@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Databases;
 using api.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("OpenPolicy")]
     public class CustomerController : ControllerBase
     {
         // GET: api/customer
         [HttpGet]
         public async Task<List<Customer>> Get()
         {
+            System.Console.WriteLine("made it to controller");
             CustomerDatabase myDatabase = new CustomerDatabase();
             return await myDatabase.GetAllCustomers();
 
